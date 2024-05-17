@@ -6,5 +6,10 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  // @Output() searchQuery = new EventEmitter<string>();
+  username: string | null;
+
+  constructor() {
+    this.username = localStorage.getItem('username');
+
+  }
 }
