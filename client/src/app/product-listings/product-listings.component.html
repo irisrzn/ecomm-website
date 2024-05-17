@@ -1,0 +1,14 @@
+<div class="my-5">
+    <h2 class="text-center mb-4">Our Products</h2>
+    <div class="card-container row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        <div *ngFor="let product of products">
+            <app-product-card [product]="product"></app-product-card>
+        </div>
+    </div>
+</div>
+
+<!-- <div *ngFor="let product of products">
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }}</p>
+    <p>Price: {{ product.price }}</p>
+</div> -->
