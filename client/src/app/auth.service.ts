@@ -44,7 +44,7 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  get loggedIn(): Observable<boolean> {
+  getLoggedIn(): Observable<boolean> {
     return this.loggedInSubject.asObservable();
   }
 }

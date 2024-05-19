@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,21 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class NavbarComponent {
   username: string | null;
+  isLoggedIn: boolean = false;
 
-  constructor() {
+  constructor(private authService: AuthService) {
     this.username = localStorage.getItem('username');
 
+  }
+
+  ngOnInit(): void {
+    // Subscribe to changes in the authentication status
+    this.authService.getLoggedIn().subscribe((loggedIn: boolean) => {
+      this.isLoggedIn = loggedIn;
+    });
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

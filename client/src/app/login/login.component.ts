@@ -13,11 +13,11 @@ export class LoginComponent {
   loginForm!: FormGroup;
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private router : Router) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -27,11 +27,13 @@ export class LoginComponent {
       return;
     }
 
-    const email = this.loginForm.value.email;
+    const username = this.loginForm.value.username;
     const password = this.loginForm.value.password;
 
-    this.authService.login(email, password).subscribe(
+    this.authService.login(username, password).subscribe(
       (response) => {
+        console.log("Login successful.");
+
         // Successful login
         // Redirect to the product page or handle success as needed
       },
@@ -40,5 +42,10 @@ export class LoginComponent {
         this.errorMessage = error.message; // Display error message to the user
       }
     );
+
+    localStorage.setItem('username', this.loginForm.value.username);
+
+    // Redirect to the product page
+    this.router.navigate(['/products']);
   }
 }
