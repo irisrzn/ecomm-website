@@ -1,26 +1,55 @@
-<header class="bg-light">
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <!-- <a class="navbar-brand" routerlink="">
-                <img src="img/logo.png" alt="Logo" width="120">
-            </a> -->
-            <div>
-                <span *ngIf="isLoggedIn">Hello, {{ username }}!</span>
+<nav class="navbar bg-light fixed-top bg-transparent py-3">
+    <div class="container-fluid">
+        <!-- <a class="navbar-brand" href="#">ClimbHolds.ro</a> -->
+        <button class="navbar-toggler shadow-none border-0 py-x" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <i class="fa-solid fa-user"></i>
+        </button>
+        <div>
+            <span *ngIf="isLoggedIn">Hello, {{ username }}!</span>
+        </div>
+        <a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping px-3"></i></a>
+        <div class="sidebar offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header align-items-start position-absolute w-100">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
             </div>
-            <!-- <input type="text" (input)="searchQuery.emit(($event.target as HTMLInputElement)?.value)" placeholder="Search products..."> -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" routerLink="/products">Products</a></li>
-                    <li *ngIf="!isLoggedIn" class="nav-item"><a class="nav-link" routerLink="/login">LOGIN</a></li>
-                    <li *ngIf="!isLoggedIn" class="nav-item"><a class="nav-link" routerLink="/register">REGISTER</a></li>
-                    <li *ngIf="isLoggedIn" class="nav-item"><a class="nav-link" (click)="logout()">LOGOUT</a></li>
-                    <li class="nav-item"><a class="nav-link" routerLink="/login"><i class="fa-solid fa-user"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            <div class="offcanvas-body d-flex flex-column justify-content-center">
+                <ul *ngIf="isLoggedIn" class="navbar-nav justify-content-start flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link active offcanvas-link pt-0" routerLink="/products" data-bs-dismiss="offcanvas">Home</a>
+                    </li>
+                    <li *ngIf="isLoggedIn" class="nav-item">
+                        <a class="nav-link active offcanvas-link pt-0" routerLink="/order-history" data-bs-dismiss="offcanvas">Order History</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav justify-content-end">
+                    <li *ngIf="!isLoggedIn" class="nav-item mb-3">
+                        <a class="auth-btn offcanvas-link" routerLink="/login" data-bs-dismiss="offcanvas">LOGIN</a>
+                    </li>
+                    <li *ngIf="!isLoggedIn" class="nav-item">
+                        <a class="auth-btn offcanvas-link" routerLink="/register" data-bs-dismiss="offcanvas">REGISTER</a>
+                    </li>
+                    <li *ngIf="isLoggedIn" class="nav-item">
+                        <a class="auth-btn offcanvas-link" (click)="logout()" data-bs-dismiss="offcanvas">LOGOUT</a>
+                    </li>
                 </ul>
             </div>
-        </nav>
+        </div>
     </div>
-</header>
+</nav>
+<!-- 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to close the offcanvas menu
+        function closeOffcanvas() {
+            var offcanvasElement = document.getElementById('offcanvasNavbar');
+            var offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+            offcanvas.hide();
+        }
+
+        // Attach click event listeners to all elements with the class 'offcanvas-link'
+        var links = document.querySelectorAll('.offcanvas-link');
+        links.forEach(function(link) {
+            link.addEventListener('click', closeOffcanvas);
+        });
+    });
+</script> -->

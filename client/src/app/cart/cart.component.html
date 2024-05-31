@@ -14,12 +14,12 @@
                     </div>
                     <div class="col-md-5">
                         <h4>{{ item.product.name }}</h4>
-                        <p>{{ item.product.price | currency: "USD" }}</p>
+                        <p>{{ item.product.price | currency: 'USD' }}</p>
                     </div>
                     <div class="col-md-2">
-                        <a (click)="updateQuantity(item.product._id, item.quantity - 1)"><i class="fa-solid fa-minus"></i></a>
+                        <a (click)="updateQuantity(item.product._id, -1)" class="cursor-pointer"><i class="fa-solid fa-minus"></i></a>
                         <span class="mx-2">{{ item.quantity }}</span>
-                        <a (click)="updateQuantity(item.product._id, item.quantity + 1)"><i class="fa-solid fa-plus"></i></a>
+                        <a (click)="updateQuantity(item.product._id, +1)" class="cursor-pointer"><i class="fa-solid fa-plus"></i></a>
                     </div>
                     <div class="col-md-2">
                         <button (click)="removeItem(item.product._id)" class="btn btn-danger">Remove</button>
@@ -27,20 +27,17 @@
                 </div>
             </div>
         </div>
-
-        
         <ng-template #emptyCart>
             <p>Your cart is empty.</p>
         </ng-template>
-
         <div class="col-md-4">
             <div class="border p-3 mb-3">
                 <h3 class="mb-3">Cart Summary</h3>
                 <div class="d-flex justify-content-between">
                     <span>Total</span>
-                    <span>{{ totalPrice | currency: "USD" }}</span>
+                    <span>{{ totalPrice | currency: 'USD' }}</span>
                 </div>
-                <button class="btn btn-warning w-100 mt-3">Proceed to Checkout</button>
+                <button class="btn btn-warning w-100 mt-3" [routerLink]="['/checkout']">Proceed to Checkout</button>
             </div>
         </div>
     </div>

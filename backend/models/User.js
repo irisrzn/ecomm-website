@@ -21,11 +21,18 @@ const userSchema = new mongoose.Schema(
             type: String,
             enum: ['user', 'admin'],
             default: 'user'
+        },
+        fname: {
+            type: String,
+            required: true
+        },
+        lname: {
+            type: String,
+            required: true
         }
     },
     { timestamps: true }
 );
-
 // Hash the password before saving it to the database
 userSchema.pre('save', async function (next) {
     const user = this;

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Product } from '../product.model';
-import { CartService } from '../cart.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-product-card',
@@ -14,9 +14,14 @@ export class ProductCardComponent {
     this.product = {} as Product;
   }
 
-  addToCart(product: Product): void {
-    this.cartService.addToCart(product);
-    this.cartService.logCartContents();
-    alert('Product added to cart!');
+  addToCart(productId: string, quantity: number) {
+    this.cartService.addToCart(productId, quantity).subscribe(
+      response => {
+        console.log('Product added to cart', response);
+      },
+      error => {
+        console.error('Error adding product to cart', error);
+      }
+    );
   }
 }

@@ -1,39 +1,63 @@
-import { Component } from '@angular/core';
-import { Product } from '../product.model';
-import { CartService } from '../cart.service';
-
-
+import { Component, OnInit } from '@angular/core';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css'
+  styleUrls: ['./cart.component.css']
 })
-export class CartComponent {
-  cartItems: { product: Product, quantity: number }[] = [];
+export class CartComponent implements OnInit {
+  cartItems: any[] = [];
   totalPrice: number = 0;
-
+  error: string | null = null;
 
   constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
-    this.cartItems = this.cartService.getCartItems();
-    this.updateTotalPrice();
+    this.loadCart();
   }
 
-  removeItem(productId: string): void {
-    this.cartService.removeFromCart(productId);
-    this.cartItems = this.cartService.getCartItems();
-    this.updateTotalPrice();
+  loadCart(): void {
+    this.cartService.getCart().subscribe(
+      data => {
+        this.cartItems = data.items;
+        this.calculateTotal();
+      },
+      err => {
+        this.error = err.error.message;
+      }
+    );
   }
 
   updateQuantity(productId: string, quantity: number): void {
-    this.cartService.updateCartItemQuantity(productId, quantity);
-    this.cartItems = this.cartService.getCartItems();
-    this.updateTotalPrice();
+    if (quantity < 1) {
+      this.removeItem(productId);
+    } else {
+      this.cartService.addToCart(productId, quantity).subscribe(
+        data => {
+          this.cartItems = data.items;
+          this.calculateTotal();
+        },
+        err => {
+          this.error = err.error.message;
+        }
+      );
+    }
   }
 
-  updateTotalPrice(): void {
-    this.totalPrice = this.cartService.getTotalPrice();
+  removeItem(productId: string): void {
+    this.cartService.removeFromCart(productId).subscribe(
+      data => {
+        this.cartItems = data.items;
+        this.calculateTotal();
+      },
+      err => {
+        this.error = err.error.message;
+      }
+    );
+  }
+
+  calculateTotal(): void {
+    this.totalPrice = this.cartItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
   }
 }

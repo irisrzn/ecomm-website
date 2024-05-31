@@ -1,16 +1,10 @@
-<div class="col">
-    <div class="card h-100">
-        <img src="{{ product.imageUrl }}" alt="" />
-        <div class="card-body">
-            <h5 class="card-title" [routerLink]="['/product', product._id]">{{ product.name }}</h5>
+<div class="card h-100 rounded-0">
+    <img src="../../assets/images/Birds 01 (a).png" alt="" />
+    <div class="card-body d-flex flex-column justify-content-between">
+        <h5 class="card-title">{{ product.name }}</h5>
+        <div>
             <p class="card-text">{{ product.price | currency: "USD" }}</p>
-            <button (click)="addToCart(product)" class="btn btn-warning">Add to Cart</button>
-            <!-- <form action="cart.html" method="GET">
-                <input type="hidden" name="product" value="Virtual Reality Glasses">
-                <input type="hidden" name="price" value="299.00">
-                <input type="hidden" name="quantity" value="1">
-                <input type="submit" class="btn btn-warning" value="Add to Cart">
-            </form> -->
+            <button (click)="addToCart(product._id, 1)" class="cart-btn">Add to Cart</button>
         </div>
     </div>
 </div>

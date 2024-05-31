@@ -1,0 +1,27 @@
+.auth-btn {
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: rgb(69, 69, 69);
+    color: white;
+    width: 100%;
+    display: block;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.offcanvas-header {
+    z-index: 100;
+}
+
+.auth-btn:hover {
+    transform: scale(1.01);
+    background-color: rgba(69, 69, 69, 0.768);
+}
+
+.auth-btn-container {
+    z-index: -2;
+}
+
+i.fa-cart-shopping {
+    font-size: 20px;
+}
