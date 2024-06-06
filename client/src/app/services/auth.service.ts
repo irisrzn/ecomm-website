@@ -28,9 +28,9 @@ export class AuthService {
     return this.http.post<any>(API_URL, { username, password }).pipe(
       // Assuming your backend returns a token upon successful login
       map(response => {
-        if (response && response.token && response.refreshToken) {
+        if (response && response.token) {
           localStorage.setItem('token', response.token);
-          localStorage.setItem('refreshToken', response.refreshToken);
+          // localStorage.setItem('refreshToken', response.refreshToken);
           this.loggedInSubject.next(true);
         }
         return response;
@@ -40,7 +40,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
+    // localStorage.removeItem('refreshToken');
     this.loggedInSubject.next(false);
   }
 

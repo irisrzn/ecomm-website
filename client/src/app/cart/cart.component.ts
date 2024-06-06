@@ -45,6 +45,40 @@ export class CartComponent implements OnInit {
     }
   }
 
+  // updateQuantity(productId: string, quantity: number): void {
+  //   const itemToUpdate = this.cartItems.find(item => item.product._id === productId);
+
+  //   if (!itemToUpdate) {
+  //     return;
+  //   }
+
+  //   const updatedQuantity = itemToUpdate.quantity + quantity;
+
+  //   if (updatedQuantity < 1) {
+  //     this.removeItem(productId);
+  //     return;
+  //   }
+
+  //   // Optimistic UI update
+  //   this.calculateTotal();
+
+  //   // Disable buttons
+  //   itemToUpdate.updating = true;
+
+  //   this.cartService.addToCart(productId, updatedQuantity).subscribe(
+  //     data => {
+  //       this.cartItems = data.items;
+  //       this.calculateTotal();
+  //       itemToUpdate.updating = false; // Enable buttons
+  //     },
+  //     err => {
+  //       this.error = err.error.message;
+  //       // Revert UI changes on error
+  //       this.loadCart(); // Reload the cart from the server to revert changes
+  //     }
+  //   );
+  // }
+
   removeItem(productId: string): void {
     this.cartService.removeFromCart(productId).subscribe(
       data => {

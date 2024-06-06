@@ -1,25 +1,22 @@
-const Order = require('../models/Order'); // Adjust the path as needed
-const Address = require('../models/Address'); // Adjust the path as needed
-const Cart = require('../models/Cart'); // Adjust the path as needed
+const Order = require('../models/Order');
+const Address = require('../models/Address');
+const Cart = require('../models/Cart');
+const Payment = require('../models/Payment');
 
-// Create Order
 exports.createOrder = async (req, res) => {
     try {
-        const { country, street1, street2, city, state, zip } = req.body;
+        const { country, street1, street2, city, state, zip, cardNumber, expirationMonth, expirationYear, cvv } = req.body;
 
-        // Fetch the user's cart
         const cart = await Cart.findOne({ user: req.user._id }).populate('items.product');
         if (!cart || cart.items.length === 0) {
             return res.status(400).send({ error: 'Cart is empty' });
         }
 
-        // Calculate total price
         let total = 0;
         for (const item of cart.items) {
             total += item.product.price * item.quantity;
         }
 
-        // Check if the address already exists
         let address = await Address.findOne({
             user: req.user._id,
             country: country.trim(),
@@ -30,7 +27,6 @@ exports.createOrder = async (req, res) => {
             zip: zip.trim()
         });
 
-        // If the address does not exist, create a new one
         if (!address) {
             address = new Address({
                 user: req.user._id,
@@ -44,7 +40,19 @@ exports.createOrder = async (req, res) => {
             await address.save();
         }
 
-        // Create new order
+        const payment = new Payment({
+            user: req.user._id,
+            status: 'pending',
+            amount: total,
+            card: {
+                cardNumber: cardNumber.trim(),
+                expirationMonth: expirationMonth,
+                expirationYear: expirationYear,
+                cvv: cvv.trim()
+            }
+        });
+        await payment.save();
+
         const order = new Order({
             user: req.user._id,
             items: cart.items.map(item => ({
@@ -52,11 +60,11 @@ exports.createOrder = async (req, res) => {
                 quantity: item.quantity
             })),
             total,
-            address: address._id
+            address: address._id,
+            payment: payment._id
         });
         await order.save();
 
-        // Clear the user's cart
         cart.items = [];
         await cart.save();
 
@@ -66,11 +74,9 @@ exports.createOrder = async (req, res) => {
     }
 };
 
-
-// Get single order
 exports.getOrder = async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id).populate('address').populate('user', 'username email');
+        const order = await Order.findById(req.params.id).populate('address').populate('user', 'username email').populate('payment');
         if (!order) {
             return res.status(404).send({ error: 'Order not found' });
         }
@@ -80,18 +86,9 @@ exports.getOrder = async (req, res) => {
     }
 };
 
-// Get all orders
-// exports.getAllOrders = async (req, res) => {
-//     try {
-//         const orders = await Order.find().populate('address').populate('user', 'username email');
-//         res.status(200).send(orders);
-//     } catch (error) {
-//         res.status(400).send({ error: error.message });
-//     }
-// };
 exports.getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find({ user: req.user._id }).populate('address').populate('user', 'username email');
+        const orders = await Order.find({ user: req.user._id }).populate('address').populate('user', 'username email').populate('payment');
         res.status(200).send(orders);
     } catch (error) {
         res.status(400).send({ error: error.message });
