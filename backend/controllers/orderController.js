@@ -5,7 +5,13 @@ const Payment = require('../models/Payment');
 
 exports.createOrder = async (req, res) => {
     try {
-        const { country, street1, street2, city, state, zip, cardNumber, expirationMonth, expirationYear, cvv } = req.body;
+
+        if (!req.body.address || !req.body.payment) {
+            return res.status(400).send({ error: 'Address or payment details are missing in the request body' });
+        }
+        
+        const { country, street1, street2, city, state, zip } = req.body.address;
+        const { cardNumber, expirationMonth, expirationYear, cvv } = req.body.payment;
 
         const cart = await Cart.findOne({ user: req.user._id }).populate('items.product');
         if (!cart || cart.items.length === 0) {
@@ -19,23 +25,23 @@ exports.createOrder = async (req, res) => {
 
         let address = await Address.findOne({
             user: req.user._id,
-            country: country.trim(),
-            street1: street1.trim(),
+            country: country?.trim(),
+            street1: street1?.trim(),
             street2: street2 ? street2.trim() : '',
-            city: city.trim(),
-            state: state.trim(),
-            zip: zip.trim()
+            city: city?.trim(),
+            state: state?.trim(),
+            zip: zip?.trim()
         });
 
         if (!address) {
             address = new Address({
                 user: req.user._id,
-                country: country.trim(),
-                street1: street1.trim(),
+                country: country?.trim(),
+                street1: street1?.trim(),
                 street2: street2 ? street2.trim() : '',
-                city: city.trim(),
-                state: state.trim(),
-                zip: zip.trim()
+                city: city?.trim(),
+                state: state?.trim(),
+                zip: zip?.trim()
             });
             await address.save();
         }
@@ -45,7 +51,7 @@ exports.createOrder = async (req, res) => {
             status: 'pending',
             amount: total,
             card: {
-                cardNumber: cardNumber.trim(),
+                cardNumber: cardNumber?.trim(),
                 expirationMonth: expirationMonth,
                 expirationYear: expirationYear,
                 cvv: cvv.trim()

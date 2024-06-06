@@ -12,6 +12,11 @@ export class CheckoutService {
   constructor(private http: HttpClient) { }
 
   placeOrder(orderData: any): Observable<any> {
+    if (!orderData) {
+      console.log("orderdata is missing");
+      console.log(orderData);
+      
+    }
     return this.http.post(this.API_URL, orderData);
   }
 
