@@ -8,8 +8,11 @@ import { LoginComponent } from './login/login.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { AuthGuard } from './auth.guard';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { CategoryComponent } from './category/category.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
+  { path: 'home', component: HomeComponent },
   { path: 'products', component: ProductListingsComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
@@ -17,8 +20,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'order-history', component: OrderHistoryComponent },
-  { path: '', redirectTo: '/products', pathMatch: 'full' },
-  { path: '**', redirectTo: '/products' }
+  { path: 'category/:category', component: CategoryComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home' }
 ];
 
 

@@ -8,35 +8,31 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
-  selector: 'app-product-listings',
-  templateUrl: './product-listings.component.html',
-  styleUrls: ['./product-listings.component.css']
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.css']
 })
-export class ProductListingsComponent implements OnInit {
+export class CategoryComponent implements OnInit {
 
+  category!: string;
   products: Product[] = [];
-  categories = [
-    { name: 'holds', image: 'holds.png' },
-    { name: 'volumes', image: 'volumes.png' },
-    { name: 'macros', image: 'macros.png' }
-  ];
   brands: string[] = [];
-  selectedCategory: string | null = null;
   selectedBrand: string | null = null;
   movingElement: string = '.moving-side';
   fixedElement: string = '.fixed-side';
   t2: gsap.core.Timeline | null = null;
   isMobile: boolean = false;
 
+
   constructor(
-    private productService: ProductService,
     private route: ActivatedRoute,
+    private productService: ProductService,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) { 
+  ) {
     this.checkScreenSize();
   }
-  
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.checkScreenSize();
@@ -45,14 +41,17 @@ export class ProductListingsComponent implements OnInit {
   checkScreenSize() {
     this.isMobile = window.innerWidth < 992;
   }
-  
+
   ngOnInit(): void {
     this.productService.getBrands().subscribe(brands => {
       this.brands = brands;
     });
 
+    this.route.paramMap.subscribe(params => {
+      this.category = params.get('category') || '';
+    });
+
     this.route.queryParams.subscribe(params => {
-      this.selectedCategory = params['category'] || null;
       this.selectedBrand = params['brand'] || null;
       this.loadProducts();
     });
@@ -64,17 +63,11 @@ export class ProductListingsComponent implements OnInit {
   }
 
   loadProducts(): void {
-    this.productService.getProductsByFilter(this.selectedCategory ?? undefined, this.selectedBrand ?? undefined)
+    this.productService.getProductsByFilter(this.category, this.selectedBrand ?? undefined)
       .subscribe(products => {
         this.products = products;
       });
   }
-
-  selectCategory(category: string) {
-    this.selectedCategory = category;
-    this.onFilterChange();
-  }
-
   selectBrand(brand: string) {
     this.selectedBrand = brand;
     this.onFilterChange();
@@ -84,7 +77,6 @@ export class ProductListingsComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        category: this.selectedCategory,
         brand: this.selectedBrand
       },
       queryParamsHandling: 'merge'
@@ -92,7 +84,6 @@ export class ProductListingsComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.selectedCategory = null;
     this.selectedBrand = null;
     this.onFilterChange();
   }
@@ -130,6 +121,4 @@ export class ProductListingsComponent implements OnInit {
       }
     });
   }
-  
-
 }

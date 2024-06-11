@@ -20,7 +20,7 @@ export class CheckoutService {
     return this.http.post(this.API_URL, orderData);
   }
 
-  getOrderHistory(): Observable<any[]> {
-    return this.http.get<any[]>(this.API_URL);
+  getOrderHistory(): Observable<any> {
+    return this.http.get(this.API_URL);
   }
 }

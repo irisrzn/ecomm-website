@@ -1,0 +1,18 @@
+.footer {
+    background-color: #212529;
+    color: rgba(255, 255, 255, 0.537);
+}
+
+.footer-logo {
+    max-width: 150px;
+}
+
+.footer ul a,
+.footer a {
+    color: rgba(255, 255, 255, 0.537);
+    text-decoration: none;
+}
+
+.footer ul a:hover {
+    text-decoration: underline;
+}

@@ -3,7 +3,7 @@ const Address = require('../models/Address');
 const Cart = require('../models/Cart');
 const Payment = require('../models/Payment');
 
-exports.createOrder = async (req, res) => {
+exports.createOrder = async (req, res) => {         
     try {
 
         if (!req.body.address || !req.body.payment) {
@@ -82,7 +82,8 @@ exports.createOrder = async (req, res) => {
 
 exports.getOrder = async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id).populate('address').populate('user', 'username email').populate('payment');
+        const order = await Order.findById(req.params.id).populate('address').populate('user', 'username email').populate('payment').populate('items.product')  ;
+
         if (!order) {
             return res.status(404).send({ error: 'Order not found' });
         }
@@ -94,7 +95,7 @@ exports.getOrder = async (req, res) => {
 
 exports.getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find({ user: req.user._id }).populate('address').populate('user', 'username email').populate('payment');
+        const orders = await Order.find({ user: req.user._id }).populate('address').populate('user', 'username email').populate('payment').populate('items.product');
         res.status(200).send(orders);
     } catch (error) {
         res.status(400).send({ error: error.message });

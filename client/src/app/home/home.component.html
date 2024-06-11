@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center my-5 pt-5">Categories</h2>
+        </div>
+        <div class="col-md-4" *ngFor="let category of categories">
+            <a [routerLink]="['/category', category.name]">
+                <div class="card text-center">
+                    <div class="card-body bg-primary text-white">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12">
+            <h2 class="text-center my-5 pt-5">Newly Added Products</h2>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let product of products.slice(0, 4)">
+            <app-product-card [product]="product"></app-product-card>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
@@ -19,18 +20,24 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './services/auth.service';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { CategoryCardComponent } from './category-card/category-card.component';
+import { CategoryComponent } from './category/category.component';
+import { HomeComponent } from './home/home.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthGuard,
-    AuthService
+    AuthService,
+    provideNgxMask()
   ],
   imports: [
-    BrowserModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule
+    BrowserModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, NgxMaskDirective 
+
   ],
   declarations: [
-    AppComponent, ProductListingsComponent, ProductDetailComponent, NavbarComponent, ProductCardComponent, CartComponent, LoginComponent, RegisterComponent, CheckoutComponent, OrderHistoryComponent
+    AppComponent, ProductListingsComponent, ProductDetailComponent, NavbarComponent, ProductCardComponent, CartComponent, LoginComponent, RegisterComponent, CheckoutComponent, OrderHistoryComponent, CategoryCardComponent, CategoryComponent, HomeComponent, FooterComponent
   ],
   bootstrap: [AppComponent]
 })

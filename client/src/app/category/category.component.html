@@ -1,21 +1,13 @@
-<div class="container pt-5 mt-5">
+<div class="container mt-5 pt-5">
     <div class="row">
         <div class="col-12 d-lg-none">
-            <h2 class="text-center mb-5">Explore our Products</h2>
+            <h3 class="text-center mb-5">{{ category | titlecase }}</h3>
         </div>
         <div class="col-12 col-lg-3 order-lg-last">
             <div class="filters fixed-side text-lg-end">
                 <h5 class="mb-4 d-none d-lg-block">Filter by:</h5>
                 <a class="btn btn-secondary d-lg-none" data-bs-toggle="collapse" href="#filtersCollapse" role="button" aria-expanded="false" aria-controls="filtersCollapse">Filters</a>
                 <div [ngClass]="{'collapse': isMobile, 'show': !isMobile}" id="filtersCollapse">
-                    <p class="mb-0">Category:</p>
-                    <div class="d-flex flex-wrap justify-content-lg-end mb-3">
-                        <div *ngFor="let category of categories">
-                            <button type="button" class="filter-button" [ngClass]="{'active': selectedCategory === category.name}" (click)="selectCategory(category.name)">
-                                {{ category.name }}
-                            </button>
-                        </div>
-                    </div>
                     <p class="mb-0">Brand:</p>
                     <div class="d-flex flex-wrap justify-content-lg-end">
                         <div *ngFor="let brand of brands">
@@ -31,7 +23,7 @@
         </div>
         <div class="col-12 col-lg-9 moving-side">
             <div class="row">
-                <h2 class="text-center mb-5 d-none d-lg-block">Explore our Products</h2>
+                <h3 class="text-center mb-5 d-none d-lg-block">{{ category | titlecase }}</h3>
                 <div class="col-12 col-sm-6 col-lg-4 mb-4" *ngFor="let product of products">
                     <app-product-card [product]="product"></app-product-card>
                 </div>

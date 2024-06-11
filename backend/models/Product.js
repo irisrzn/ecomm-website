@@ -10,8 +10,19 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    brand: String
-});
+    brand: {
+        type: String, 
+        required: true
+    },
+    imageUrl: {
+        type: String,
+        required: true
+    },
+    category: {
+        type: String,
+        required: true
+    }
+}, { timestamps: true });
 
 const Product = mongoose.model('Product', productSchema);
 

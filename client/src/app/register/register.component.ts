@@ -61,7 +61,7 @@ export class RegisterComponent {
       localStorage.setItem('username', this.registrationForm.value.username);
 
       // Redirect to the product page
-      this.router.navigate(['/products']);
+      this.router.navigate(['/home']);
     }
   }
 }

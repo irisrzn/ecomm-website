@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Product } from '../product.model';
 import { CartService } from '../services/cart.service';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-product-card',
@@ -10,7 +11,7 @@ import { CartService } from '../services/cart.service';
 export class ProductCardComponent {
   @Input() product: Product;
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private productService: ProductService) {
     this.product = {} as Product;
   }
 
@@ -23,5 +24,9 @@ export class ProductCardComponent {
         console.error('Error adding product to cart', error);
       }
     );
+  }
+
+  getImageUrl(imageUrl: string): string {
+    return this.productService.getImageUrl(imageUrl);
   }
 }

@@ -51,6 +51,6 @@ export class LoginComponent {
     localStorage.setItem('username', this.loginForm.value.username);
 
     // Redirect to the product page
-    this.router.navigate(['/products']);
+    this.router.navigate(['/home']);
   }
 }

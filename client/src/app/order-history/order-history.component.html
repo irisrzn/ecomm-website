@@ -1,14 +1,46 @@
-<section class="container">
-    <h2>Order History</h2>
-    <div *ngIf="orders.length === 0">
-        <p>No orders found.</p>
-    </div>
-    <div *ngFor="let order of orders" class="order-item">
-        <h4>Order ID: {{ order._id }}</h4>
-        <p>Date: {{ order.createdAt | date }}</p>
-        <p>Total: {{ order.total | currency }}</p>
-        <div *ngFor="let item of order.items">
-            <p>{{ item.product.name }} - Quantity: {{ item.quantity }}</p>
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center align-content-center">
+        <div class="col-12 col-lg-8">
+            <h2 class="text-center">Order History</h2>
+            <div *ngIf="orders.length === 0">
+                <p>No orders found.</p>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Total</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let order of orders; let i = index">
+                    <tr class="order-item">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ order.createdAt | date }}</td>
+                        <td>{{ order.total | currency }}</td>
+                        <td class="text-end">
+                            <button class="btn btn-link py-0" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i" aria-expanded="false" [attr.aria-controls]="'collapse' + i" (click)="toggleIcon(i)">
+                                <i [ngClass]="{'fa-circle-plus': !isCollapsed[i], 'fa-circle-xmark': isCollapsed[i]}" class="fa-solid"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr [attr.id]="'collapse' + i" class="collapse">
+                        <td colspan="4">
+                            <div class="order-details-container">
+                                <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-2" *ngFor="let item of order.items">
+                                    <div class="d-flex align-items-center">
+                                        <img [src]="getImageUrl(item.product.imageUrl)" alt="" height="40" class="d-none d-md-block" />
+                                        <p class="fw-bold mb-0 px-md-3 text-start">{{ item.product.name }}</p>
+                                        <p class="fw-lighter product-brand mb-0">{{ item.product.brand }}</p>
+                                    </div>
+                                    <p class="mb-0 pt-3 pt-md-0">{{ item.quantity }} x {{ item.product.price | currency }} = {{ (item.quantity * item.product.price) | currency }}</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</section>
+</div>

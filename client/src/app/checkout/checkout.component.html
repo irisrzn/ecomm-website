@@ -7,15 +7,15 @@
         <div class="col-12 col-lg-8">
             <div class="form-container p-lg-4">
                 <div *ngIf="step === 1">
-                    <h3>Step 1: Address Details</h3>
+                    <h3 class="text-center pb-3">Step 1: Address Details</h3>
                     <form [formGroup]="addressForm" (ngSubmit)="nextStep()">
                         <div class="row">
                             <div class="col-12 col-lg-6 mb-3 mb-lg-2">
                                 <label for="country" class="form-label">Country</label>
                                 <input type="text" class="form-control rounded-0" id="country" required formControlName="country">
                                 <div class="form-alert-container mt-1">
-                                    <div *ngIf="checkoutForm.get('country')?.invalid && (checkoutForm.get('country')?.dirty || checkoutForm.get('country')?.touched)" class="form-alert">
-                                        <div *ngIf="checkoutForm.get('country')?.errors?.['required']">Country is required.</div>
+                                    <div *ngIf="addressForm.get('country')?.invalid && (addressForm.get('country')?.dirty || addressForm.get('country')?.touched)" class="form-alert">
+                                        <div *ngIf="addressForm.get('country')?.errors?.['required']">Country is required.</div>
                                     </div>
                                 </div>
                             </div>
@@ -24,8 +24,8 @@
                                 <label for="street1" class="form-label">Street 1</label>
                                 <input type="text" class="form-control rounded-0" id="street1" required formControlName="street1">
                                 <div class="form-alert-container mt-1">
-                                    <div *ngIf="checkoutForm.get('street1')?.invalid && (checkoutForm.get('street1')?.dirty || checkoutForm.get('street1')?.touched)" class="form-alert">
-                                        <div *ngIf="checkoutForm.get('street1')?.errors?.['required']">Street 1 is required.</div>
+                                    <div *ngIf="addressForm.get('street1')?.invalid && (addressForm.get('street1')?.dirty || addressForm.get('street1')?.touched)" class="form-alert">
+                                        <div *ngIf="addressForm.get('street1')?.errors?.['required']">Street 1 is required.</div>
                                     </div>
                                 </div>
                             </div>
@@ -39,8 +39,8 @@
                                 <label for="city" class="form-label">City</label>
                                 <input type="text" class="form-control rounded-0" id="city" required formControlName="city">
                                 <div class="form-alert-container mt-1">
-                                    <div *ngIf="checkoutForm.get('city')?.invalid && (checkoutForm.get('city')?.dirty || checkoutForm.get('city')?.touched)" class="form-alert">
-                                        <div *ngIf="checkoutForm.get('city')?.errors?.['required']">City is required.</div>
+                                    <div *ngIf="addressForm.get('city')?.invalid && (addressForm.get('city')?.dirty || addressForm.get('city')?.touched)" class="form-alert">
+                                        <div *ngIf="addressForm.get('city')?.errors?.['required']">City is required.</div>
                                     </div>
                                 </div>
                             </div>
@@ -49,8 +49,8 @@
                                 <label for="state" class="form-label">State</label>
                                 <input type="text" class="form-control rounded-0" id="state" required formControlName="state">
                                 <div class="form-alert-container mt-1">
-                                    <div *ngIf="checkoutForm.get('state')?.invalid && (checkoutForm.get('state')?.dirty || checkoutForm.get('state')?.touched)" class="form-alert">
-                                        <div *ngIf="checkoutForm.get('state')?.errors?.['required']">State is required.</div>
+                                    <div *ngIf="addressForm.get('state')?.invalid && (addressForm.get('state')?.dirty || addressForm.get('state')?.touched)" class="form-alert">
+                                        <div *ngIf="addressForm.get('state')?.errors?.['required']">State is required.</div>
                                     </div>
                                 </div>
                             </div>
@@ -59,62 +59,89 @@
                                 <label for="zip" class="form-label">Zip</label>
                                 <input type="text" class="form-control rounded-0" id="zip" required formControlName="zip">
                                 <div class="form-alert-container mt-1">
-                                    <div *ngIf="checkoutForm.get('zip')?.invalid && (checkoutForm.get('zip')?.dirty || checkoutForm.get('zip')?.touched)" class="form-alert">
-                                        <div *ngIf="checkoutForm.get('zip')?.errors?.['required']">Zip is required.</div>
+                                    <div *ngIf="addressForm.get('zip')?.invalid && (addressForm.get('zip')?.dirty || addressForm.get('zip')?.touched)" class="form-alert">
+                                        <div *ngIf="addressForm.get('zip')?.errors?.['required']">Zip is required.</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 d-flex justify-content-end">
+                                <!-- <button type="submit" class="btn btn-primary"  [disabled]="!addressForm.valid">Next</button> -->
                                 <button type="submit" class="btn btn-primary">Next</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div *ngIf="step === 2">
-                    <h3>Step 2: Payment Details</h3>
-                    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
-                        <div class="col-12 col-lg-6 mb-3 mb-lg-2">
-                            <label for="cardNumber" class="form-label">Card Number</label>
-                            <input type="text" class="form-control rounded-0" id="cardNumber" required formControlName="cardNumber">
-                            <div class="form-alert-container mt-1">
-                                <div *ngIf="checkoutForm.get('cardNumber')?.invalid && (checkoutForm.get('cardNumber')?.dirty || checkoutForm.get('cardNumber')?.touched)" class="form-alert">
-                                    <div *ngIf="checkoutForm.get('cardNumber')?.errors?.['required']">Card Number is required.</div>
+                    <h3 class="text-center pb-3">Step 2: Payment Details</h3>
+                    <form [formGroup]="paymentForm" (ngSubmit)="nextStep()">
+                        <div class="row">
+                            <div class="col-12 mb-3 mb-lg-2">
+                                <label for="cardNumber" class="form-label">Card Number</label>
+                                <input type="text" class="form-control rounded-0" id="cardNumber" required formControlName="cardNumber" placeholder="1234 1234 1234 1234" [mask]="'0000 0000 0000 0000'">
+                                <div class="form-alert-container mt-1">
+                                    <div *ngIf="paymentForm.get('cardNumber')?.invalid && (paymentForm.get('cardNumber')?.dirty || paymentForm.get('cardNumber')?.touched)" class="form-alert">
+                                        <div *ngIf="paymentForm.get('cardNumber')?.errors?.['required']">Card Number is required.</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-12 col-lg-6 mb-3 mb-lg-2">
+                                <label for="expirationMonth" class="form-label">Expiration Month</label>
+                                <select class="form-select rounded-0" id="expirationMonth" required formControlName="expirationMonth" placeholder="Select month">
+                                    <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+                                </select>
+                                <div class="form-alert-container mt-1">
+                                    <div *ngIf="paymentForm.get('expirationMonth')?.invalid && (paymentForm.get('expirationMonth')?.dirty || paymentForm.get('expirationMonth')?.touched)" class="form-alert">
+                                        <div *ngIf="paymentForm.get('expirationMonth')?.errors?.['required']">Expiration Month is required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3 mb-lg-2">
+                                <label for="expirationYear" class="form-label">Expiration Year</label>
+                                <select class="form-select rounded-0" id="expirationYear" required formControlName="expirationYear" placeholder="Select year">
+                                    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                                </select>
+                                <div class="form-alert-container mt-1">
+                                    <div *ngIf="paymentForm.get('expirationYear')?.invalid && (paymentForm.get('expirationYear')?.dirty || paymentForm.get('expirationYear')?.touched)" class="form-alert">
+                                        <div *ngIf="paymentForm.get('expirationYear')?.errors?.['required']">Expiration Year is required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3 mb-lg-2">
+                                <label for="cvv" class="form-label">CVV</label>
+                                <input type="text" class="form-control rounded-0" id="cvv" required formControlName="cvv" maxlength="3" placeholder="123">
+                                <div class="form-alert-container mt-1">
+                                    <div *ngIf="paymentForm.get('cvv')?.invalid && (paymentForm.get('cvv')?.dirty || paymentForm.get('cvv')?.touched)" class="form-alert">
+                                        <div *ngIf="paymentForm.get('cvv')?.errors?.['required']">CVV is required.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 d-flex justify-content-between align-items-center">
 
-                        <div class="col-12 col-lg-6 mb-3 mb-lg-2">
-                            <label for="expirationMonth" class="form-label">Expiration Month</label>
-                            <input type="text" class="form-control rounded-0" id="expirationMonth" required formControlName="expirationMonth">
-                            <div class="form-alert-container mt-1">
-                                <div *ngIf="checkoutForm.get('expirationMonth')?.invalid && (checkoutForm.get('expirationMonth')?.dirty || checkoutForm.get('expirationMonth')?.touched)" class="form-alert">
-                                    <div *ngIf="checkoutForm.get('expirationMonth')?.errors?.['required']">Expiration Month is required.</div>
-                                </div>
+                                <a type="button" (click)="previousStep()"><i class="fa-solid fa-arrow-left pe-2"></i>Back</a>
+                                <button type="submit" class="btn btn-primary">Next</button>
+                                <!-- <button type="submit" class="btn btn-primary" [disabled]="!paymentForm.valid">Next</button> -->
                             </div>
                         </div>
-
-                        <div class="col-12 col-lg-6 mb-3 mb-lg-2">
-                            <label for="expirationYear" class="form-label">Expiration Year</label>
-                            <input type="text" class="form-control rounded-0" id="expirationYear" required formControlName="expirationYear">
-                            <div class="form-alert-container mt-1">
-                                <div *ngIf="checkoutForm.get('expirationYear')?.invalid && (checkoutForm.get('expirationYear')?.dirty || checkoutForm.get('expirationYear')?.touched)" class="form-alert">
-                                    <div *ngIf="checkoutForm.get('expirationYear')?.errors?.['required']">Expiration Year is required.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-lg-6 mb-3 mb-lg-2">
-                            <label for="cvv" class="form-label">CVV</label>
-                            <input type="text" class="form-control rounded-0" id="cvv" required formControlName="cvv">
-                            <div class="form-alert-container mt-1">
-                                <div *ngIf="checkoutForm.get('cvv')?.invalid && (checkoutForm.get('cvv')?.dirty || checkoutForm.get('cvv')?.touched)" class="form-alert">
-                                    <div *ngIf="checkoutForm.get('cvv')?.errors?.['required']">CVV is required.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-secondary" (click)="previousStep()">Back</button>
-                        <button type="submit" class="btn btn-primary">Next</button>
                     </form>
+                </div>
+                <div *ngIf="step === 3">
+                    <h3 class="text-center pb-3">Step 3: Confirm order</h3>
+                    <div class="order-summary">
+                        <h4>Order Summary</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let item of orderItems">
+                                {{ item.product.name }}: {{ item.quantity }} x {{ item.product.price | currency: 'USD' }} = {{ item.quantity * item.product.price | currency: 'USD' }}
+                            </li>
+                        </ul>
+                        <div class="total mt-3">
+                            <h5>Total: {{ totalPrice | currency: 'USD'}}</h5>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a type="button" (click)="previousStep()"><i class="fa-solid fa-arrow-left pe-2"></i>Back</a>
+                            <button type="button" class="btn btn-primary" (click)="onSubmit()">Confirm Order</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

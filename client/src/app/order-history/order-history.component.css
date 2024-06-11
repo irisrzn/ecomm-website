@@ -1,0 +1,33 @@
+.collapse {
+    transition: height 0.2s ease-in-out, opacity 0.2s ease-out;
+    overflow: hidden;
+}
+
+.collapsing {
+    transition: height 0.2s ease-in-out, opacity 0.2s ease-out;
+    opacity: 0;
+}
+
+.collapse.show {
+    transition: height 0.2s ease-in-out, opacity 0.2s ease-out;
+    opacity: 1;
+}
+
+.product-brand {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.419);
+}
+
+.btn.btn-link {
+    color: #212529;
+}
+
+.btn.btn-link:hover {
+    transform: scale(1.1);
+}
+
+.order-details-container {
+    background-color: #21252909;
+    border: 1px solid #2125296f;
+    border-radius: 10px;
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CheckoutService } from '../services/checkout.service';
 import { Router } from '@angular/router';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -16,7 +17,15 @@ export class CheckoutComponent implements OnInit {
   orderSummary: any;
   orderResponse: any;
 
-  constructor(private fb: FormBuilder, private checkoutService: CheckoutService, private router: Router) {
+  orderItems: any[] = [];
+  totalPrice: number = 0;
+  error: string | null = null;
+
+
+  months: number[] = [];
+  years: number[] = [];
+
+  constructor(private fb: FormBuilder, private checkoutService: CheckoutService, private router: Router, private cartService: CartService) {
     this.checkoutForm = this.fb.group({
       address: this.fb.group({
         country: ['', Validators.required],
@@ -38,21 +47,31 @@ export class CheckoutComponent implements OnInit {
     this.paymentForm = this.checkoutForm.get('payment') as FormGroup;
   }
 
-  // constructor(private fb: FormBuilder, private checkoutService: CheckoutService, private router: Router) {
-  //   this.checkoutForm = this.fb.group({
-  //       country: ['', Validators.required],
-  //       street1: ['', Validators.required],
-  //       street2: [''],
-  //       city: ['', Validators.required],
-  //       state: ['', Validators.required],
-  //       zip: ['', Validators.required],
-  //       cardNumber: ['', Validators.required],
-  //       expiryDate: ['', Validators.required],
-  //       cvv: ['', Validators.required]
-  //   });
-  // }
+  ngOnInit() {
+    this.loadCart();
+    this.months = Array.from({ length: 12 }, (_, i) => i + 1);
 
-  ngOnInit(): void { }
+    const currentYear = new Date().getFullYear();
+    for (let i = 0; i < 10; i++) {
+      this.years.push(currentYear + i);
+    }
+  }
+
+  loadCart(): void {
+    this.cartService.getCart().subscribe(
+      data => {
+        this.orderItems = data.items;
+        this.calculateTotal();
+      },
+      err => {
+        this.error = err.error.message;
+      }
+    );
+  }
+
+  calculateTotal(): void {
+    this.totalPrice = this.orderItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+  }
 
   nextStep() {
     if (this.step < 3) {
@@ -74,7 +93,7 @@ export class CheckoutComponent implements OnInit {
     }
 
     console.log(this.checkoutForm.value);
-    
+
 
     this.checkoutService.placeOrder(this.checkoutForm.value).subscribe(
       response => {

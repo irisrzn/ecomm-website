@@ -11,7 +11,7 @@
 
 .offcanvas-header {
     z-index: 100;
-}
+}   
 
 .auth-btn:hover {
     transform: scale(1.01);
@@ -24,4 +24,23 @@
 
 i.fa-cart-shopping {
     font-size: 20px;
+}
+
+.dropdown-menu {
+    border: none;
+}
+
+.dropdown .nav-link .fa-angle-up {
+    display: none;
+}
+.dropdown .nav-link.show .fa-angle-down {
+    display: none;
+}
+.dropdown .nav-link.show .fa-angle-up {
+    display: block;
+}
+
+.text-small {
+    color: #212529ba;
+    font-size: 12px;
 }
