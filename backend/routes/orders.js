@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const orderController = require('../controllers/orderController'); // Adjust the path as needed
-const { isAuthenticated } = require('../middlewares/auth'); // Adjust the path as needed
+const orderController = require('../controllers/orderController');
+const { isAuthenticated } = require('../middlewares/auth');
 
-// Route to create an order
+// Create order
 router.post('/', isAuthenticated, orderController.createOrder);
 
-// Route to get a single order by ID
+// Get single order by ID
 router.get('/:id', isAuthenticated, orderController.getOrder);
 
-// Route to get all orders
+// Get all orders
 router.get('/', isAuthenticated, orderController.getAllOrders);
 
 module.exports = router;

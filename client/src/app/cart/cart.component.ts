@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-cart',
@@ -11,7 +12,7 @@ export class CartComponent implements OnInit {
   totalPrice: number = 0;
   error: string | null = null;
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService, private productService: ProductService) {}
 
   ngOnInit(): void {
     this.loadCart();
@@ -30,12 +31,19 @@ export class CartComponent implements OnInit {
   }
 
   updateQuantity(productId: string, quantity: number): void {
-    if (quantity < 1) {
+    const itemIndex = this.cartItems.findIndex(item => item.product._id === productId);
+    const newQuantity = this.cartItems[itemIndex].quantity + quantity;
+
+    console.log("itemIndex: " + itemIndex);
+    console.log("newQuantity: " + newQuantity);
+    
+    if (this.cartItems[itemIndex].quantity < 1) {
       this.removeItem(productId);
     } else {
       this.cartService.addToCart(productId, quantity).subscribe(
         data => {
-          this.cartItems = data.items;
+          // this.cartItems = data.items;
+          this.cartItems[itemIndex].quantity = newQuantity;
           this.calculateTotal();
         },
         err => {
@@ -45,44 +53,11 @@ export class CartComponent implements OnInit {
     }
   }
 
-  // updateQuantity(productId: string, quantity: number): void {
-  //   const itemToUpdate = this.cartItems.find(item => item.product._id === productId);
-
-  //   if (!itemToUpdate) {
-  //     return;
-  //   }
-
-  //   const updatedQuantity = itemToUpdate.quantity + quantity;
-
-  //   if (updatedQuantity < 1) {
-  //     this.removeItem(productId);
-  //     return;
-  //   }
-
-  //   // Optimistic UI update
-  //   this.calculateTotal();
-
-  //   // Disable buttons
-  //   itemToUpdate.updating = true;
-
-  //   this.cartService.addToCart(productId, updatedQuantity).subscribe(
-  //     data => {
-  //       this.cartItems = data.items;
-  //       this.calculateTotal();
-  //       itemToUpdate.updating = false; // Enable buttons
-  //     },
-  //     err => {
-  //       this.error = err.error.message;
-  //       // Revert UI changes on error
-  //       this.loadCart(); // Reload the cart from the server to revert changes
-  //     }
-  //   );
-  // }
-
   removeItem(productId: string): void {
     this.cartService.removeFromCart(productId).subscribe(
       data => {
-        this.cartItems = data.items;
+        // this.cartItems = data.items;
+        this.loadCart();
         this.calculateTotal();
       },
       err => {
@@ -93,5 +68,9 @@ export class CartComponent implements OnInit {
 
   calculateTotal(): void {
     this.totalPrice = this.cartItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+  }
+
+  getImageUrl(imageUrl: string): string {
+    return this.productService.getImageUrl(imageUrl);
   }
 }

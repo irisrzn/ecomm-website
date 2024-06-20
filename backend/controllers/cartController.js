@@ -53,11 +53,7 @@ exports.removeFromCart = async (req, res) => {
         const itemIndex = cart.items.findIndex(item => item.product.toString() === productId);
         if (itemIndex > -1) {
             const item = cart.items[itemIndex];
-            if (item.quantity > 1) {
-                item.quantity -= 1;
-            } else {
-                cart.items.splice(itemIndex, 1);
-            }
+            cart.items.splice(itemIndex, 1);
             await cart.save();
             res.send(cart);
         } else {

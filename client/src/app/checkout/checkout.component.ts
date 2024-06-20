@@ -91,10 +91,6 @@ export class CheckoutComponent implements OnInit {
     if (this.checkoutForm.invalid) {
       return;
     }
-
-    console.log(this.checkoutForm.value);
-
-
     this.checkoutService.placeOrder(this.checkoutForm.value).subscribe(
       response => {
         this.orderResponse = response;

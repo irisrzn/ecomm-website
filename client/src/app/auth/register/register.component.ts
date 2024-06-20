@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { MustMatch } from './must-match.validator';
 
 @Component({
@@ -26,7 +26,7 @@ export class RegisterComponent {
       lname: ['', Validators.required]
     },
     {
-      validator: MustMatch('password', 'confirmPassword') // Apply the custom validator
+      validator: MustMatch('password', 'confirmPassword')
     });
   }
 
@@ -48,20 +48,16 @@ export class RegisterComponent {
         this.registrationForm.value.lname
       ).subscribe(
         response => {
-          // Registration successful, redirect or display success message
           console.log('Registration successful', response);
+          localStorage.setItem('username', this.registrationForm.value.username);
+          this.router.navigate(['/home']);
+  
         },
         error => {
-          // Handle registration error (e.g., display error message)
           this.registrationError = error.message; // Assuming error message is returned from the backend
           console.error('Registration failed', error);
         }
       );
-
-      localStorage.setItem('username', this.registrationForm.value.username);
-
-      // Redirect to the product page
-      this.router.navigate(['/home']);
     }
   }
 }

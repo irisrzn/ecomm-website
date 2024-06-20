@@ -14,8 +14,8 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { CartComponent } from './cart/cart.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './services/auth.service';

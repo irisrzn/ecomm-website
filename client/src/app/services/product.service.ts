@@ -7,43 +7,37 @@ import { Product } from '../product.model';
     providedIn: 'root'
 })
 export class ProductService {
-    private baseUrl = 'http://localhost:3000/api'; // Base API endpoint
+    private baseUrl = 'http://localhost:3000/api';
 
     constructor(private http: HttpClient) { }
 
-    // CREATE (POST)
     addProduct(product: Product): Observable<Product> {
-        const url = `${this.baseUrl}/products`; // Concatenate "/products"
+        const url = `${this.baseUrl}/products`;
         return this.http.post<Product>(url, product);
     }
 
-    // READ (GET) all products
     getProducts(): Observable<Product[]> {
-        const url = `${this.baseUrl}/products`; // Concatenate "/products"
+        const url = `${this.baseUrl}/products`;
         return this.http.get<Product[]>(url);
     }
 
-    // READ (GET) a product by ID
     getProductById(id: string): Observable<Product> {
-        const url = `${this.baseUrl}/products/${id}`; // Concatenate "/products/:id"
+        const url = `${this.baseUrl}/products/${id}`;
         return this.http.get<Product>(url);
     }
 
-    // UPDATE (PUT)
     updateProduct(id: string, product: Product): Observable<Product> {
-        const url = `${this.baseUrl}/products/${id}`; // Concatenate "/products/:id"
+        const url = `${this.baseUrl}/products/${id}`;
         return this.http.put<Product>(url, product);
     }
 
-    // DELETE (DELETE)
     deleteProduct(id: string): Observable<void> {
-        const url = `${this.baseUrl}/products/${id}`; // Concatenate "/products/:id"
+        const url = `${this.baseUrl}/products/${id}`;
         return this.http.delete<void>(url);
     }
 
-    // Search for products
     searchProducts(searchQuery: string): Observable<Product[]> {
-        const url = `${this.baseUrl}/products?search=${searchQuery}`; // Concatenate "/products"
+        const url = `${this.baseUrl}/products?search=${searchQuery}`;
         return this.http.get<Product[]>(url);
     }
 
@@ -51,9 +45,8 @@ export class ProductService {
         return `../../assets/images/${imageUrl}`;
     }
 
-    // Get products by category
     getProductsByCategory(category: string): Observable<Product[]> {
-        const url = `${this.baseUrl}/products?category=${category}`; // Concatenate "/products"
+        const url = `${this.baseUrl}/products?category=${category}`;
         return this.http.get<Product[]>(url);
     }
 

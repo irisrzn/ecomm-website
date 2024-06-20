@@ -17,20 +17,30 @@ export class AuthService {
   }
 
   register(username: string, email: string, password: string, fname: string, lname: string): Observable<any> {
-    // Replace the API_URL with your actual backend API URL
     const API_URL = 'http://localhost:3000/auth/register  ';
-    return this.http.post<any>(API_URL, { username, email, password, fname, lname });
-  }
-
-  login(username: string, password: string): Observable<any> {
-    // Replace the API_URL with your actual backend API URL
-    const API_URL = 'http://localhost:3000/auth/login';
-    return this.http.post<any>(API_URL, { username, password }).pipe(
-      // Assuming your backend returns a token upon successful login
+    return this.http.post<any>(API_URL, { username, email, password, fname, lname }).pipe(
       map(response => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
-          // localStorage.setItem('refreshToken', response.refreshToken);
+          this.loggedInSubject.next(true);
+        }
+        return response;
+      })
+    );
+  }
+
+  login(username: string, password: string): Observable<any> {
+    const API_URL = 'http://localhost:3000/auth/login';
+    return this.http.post<any>(API_URL, { username, password }).pipe(
+      map(response => {
+        if (response && response.token) {
+          localStorage.setItem('token', response.token);          
+          if (response.role === 'admin') {
+            localStorage.setItem('isAdmin', 'true');
+          } else {
+            localStorage.setItem('isAdmin', 'false');
+          }
+          console.log(localStorage.getItem('isAdmin'));
           this.loggedInSubject.next(true);
         }
         return response;
@@ -40,13 +50,31 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
-    // localStorage.removeItem('refreshToken');
+    localStorage.removeItem('isAdmin');
     this.loggedInSubject.next(false);
   }
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
   }
+
+  isAdmin(): boolean {
+    console.log(localStorage.getItem('isAdmin'));
+    
+    return localStorage.getItem('isAdmin') === 'true';
+  }
+
+  // isAdmin(): boolean {
+  //   const token = localStorage.getItem('token');
+  //   if (!token) {
+  //     return false;
+  //   }
+  //   const payload = JSON.parse(atob(token.split('.')[1]));
+
+  //   console.log("role: " + payload.role);
+    
+  //   return payload.role === 'admin';
+  // }
 
   getLoggedIn(): Observable<boolean> {
     return this.loggedInSubject.asObservable();

@@ -7,6 +7,7 @@ const productRoutes = require('./routes/products');
 const orderRoutes = require('./routes/orders');
 const addressRoutes = require('./routes/adresses');
 const cartRoutes = require('./routes/cart');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,16 +20,14 @@ connectDB();
 // Parse JSON request body
 app.use(express.json());
 
-// Define authentication routes
+// Define routes
 app.use('/auth', authRoutes);
-
-// Define user routes
 app.use('/user', userRoutes);
-
 app.use('/api', productRoutes);
 app.use('/orders', orderRoutes);
 app.use('/address', addressRoutes);
 app.use('/cart', cartRoutes);
+app.use('/admin', adminRoutes);
 
 
 // Start the server

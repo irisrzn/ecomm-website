@@ -15,7 +15,7 @@
         <div class="col-12">
             <h2 class="text-center my-5 pt-5">Newly Added Products</h2>
         </div>
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let product of products.slice(0, 4)">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4" *ngFor="let product of products.slice(0, 4)">
             <app-product-card [product]="product"></app-product-card>
         </div>
     </div>

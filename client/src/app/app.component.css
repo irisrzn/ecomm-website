@@ -4,3 +4,7 @@
     font-family: "Space Grotesk", sans-serif;
     font-optical-sizing: auto;
 }
+
+.fixed-height {
+    min-height: 100vh;
+}

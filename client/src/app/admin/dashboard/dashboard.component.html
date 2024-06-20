@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+        <!-- <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active text-light" href="#">
+                            <i class="fas fa-home"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" routerLink="products">
+                            <i class="fas fa-box-open"></i>
+                            Products
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav> -->
+
+        <div class="col-md-9 ml-sm-auto col-lg-10 px-4 pt-5 mt-5">
+            <h1 class="h2">Dashboard</h1>
+            <div>
+                <h4>User Statistics</h4>
+                <p>Total Users: {{ statistics.totalUsers }}</p>
+                <p>Active Users: {{ statistics.totalOrders }}</p>
+                <p>Inactive Users: {{ statistics.totalRevenue }}</p>
+            </div>
+        </div>
+    </div>
+</div>

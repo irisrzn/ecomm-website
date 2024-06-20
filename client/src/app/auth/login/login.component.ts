@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -38,19 +38,17 @@ export class LoginComponent {
     this.authService.login(username, password).subscribe(
       (response) => {
         console.log("Login successful.");
-
-        // Successful login
-        // Redirect to the product page or handle success as needed
+        localStorage.setItem('username', this.loginForm.value.username);
+        if (response.role && response.role === 'admin') {
+          this.router.navigate(['/admin']);
+        } else {
+          this.router.navigate(['/home']);
+        }
       },
       (error) => {
-        // Failed login
-        this.errorMessage = error.message; // Display error message to the user
+        alert("Wrong username or password. Please try again or register if you don't have an account.")
+        this.errorMessage = error.message;
       }
     );
-
-    localStorage.setItem('username', this.loginForm.value.username);
-
-    // Redirect to the product page
-    this.router.navigate(['/home']);
   }
 }

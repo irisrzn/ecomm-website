@@ -27,11 +27,10 @@ const refreshToken = async (req, res) => {
 
 // Register a new user
 const register = async (req, res, next) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, fname, lname } = req.body;
 
     try {
-        // const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ username, email, password });
+        const user = new User({ username, email, password, fname, lname });
         await user.save();
         res.json({ message: 'Registration successful' });
     } catch (error) {
@@ -57,7 +56,9 @@ const login = async (req, res, next) => {
         const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
             expiresIn: '1 hour'
         });
-        res.json({ token });
+
+        const role = user.role;
+        res.json({ token, role });
     } catch (error) {
         next(error);
     }
