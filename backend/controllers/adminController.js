@@ -1,24 +1,126 @@
 const User = require('../models/User');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
+const moment = require('moment');
+
+// exports.getStatistics = async (req, res) => {
+//     try {
+//         const totalUsers = await User.countDocuments({});
+//         const totalOrders = await Order.countDocuments({});
+//         const totalRevenue = await Order.aggregate([
+//             { $group: { _id: null, total: { $sum: '$total' } } }
+//         ]);
+
+//         res.status(200).json({
+//             totalUsers,
+//             totalOrders,
+//             totalRevenue: totalRevenue[0] ? totalRevenue[0].total : 0,
+//         });
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
 
 exports.getStatistics = async (req, res) => {
     try {
+        // Total Users
         const totalUsers = await User.countDocuments({});
+
+        // Total Orders
         const totalOrders = await Order.countDocuments({});
+
+        // Total Revenue
         const totalRevenue = await Order.aggregate([
             { $group: { _id: null, total: { $sum: '$total' } } }
+        ]);
+
+        // Items Ordered by Category
+        const itemsByCategory = await Order.aggregate([
+            { $unwind: '$items' },
+            {
+                $lookup: {
+                    from: 'products',
+                    localField: 'items.product',
+                    foreignField: '_id',
+                    as: 'productDetails'
+                }
+            },
+            { $unwind: '$productDetails' },
+            {
+                $group: {
+                    _id: '$productDetails.category',
+                    totalQuantity: { $sum: '$items.quantity' }
+                }
+            },
+            {
+                $project: {
+                    category: '$_id',
+                    totalQuantity: 1
+                }
+            }
+        ]);
+
+        // Items Ordered by Brand
+        const itemsByBrand = await Order.aggregate([
+            { $unwind: '$items' },
+            {
+                $lookup: {
+                    from: 'products',
+                    localField: 'items.product',
+                    foreignField: '_id',
+                    as: 'productDetails'
+                }
+            },
+            { $unwind: '$productDetails' },
+            {
+                $group: {
+                    _id: '$productDetails.brand',
+                    totalQuantity: { $sum: '$items.quantity' }
+                }
+            },
+            {
+                $project: {
+                    brand: '$_id',
+                    totalQuantity: 1
+                }
+            }
+        ]);
+
+        // Seasonal Trends in Sales
+        const salesByMonth = await Order.aggregate([
+            {
+                $group: {
+                    _id: { month: { $month: '$createdAt' }, year: { $year: '$createdAt' } },
+                    totalRevenue: { $sum: '$total' },
+                    totalOrders: { $sum: 1 }
+                }
+            },
+            {
+                $sort: { '_id.year': 1, '_id.month': 1 }
+            },
+            {
+                $project: {
+                    month: '$_id.month',
+                    year: '$_id.year',
+                    totalRevenue: 1,
+                    totalOrders: 1
+                }
+            }
         ]);
 
         res.status(200).json({
             totalUsers,
             totalOrders,
             totalRevenue: totalRevenue[0] ? totalRevenue[0].total : 0,
+            itemsByCategory,
+            itemsByBrand,
+            salesByMonth
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 exports.getAllUsers = async (req, res) => {
     try {

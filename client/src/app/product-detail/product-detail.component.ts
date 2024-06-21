@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { Product } from '../product.model';
-import { Subscription } from 'rxjs';
-
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -11,55 +10,44 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./product-detail.component.css']
 })
 export class ProductDetailComponent implements OnInit {
-
-  // product: Product | null = null;
-
-  // constructor(
-  //   private route: ActivatedRoute,
-  //   private productService: ProductService
-  // ) { }
-
-  // ngOnInit(): void {
-  //   const productId = this.route.snapshot.paramMap.get('id');
-  //   if (productId) {
-  //     this.productService.getProductById(productId)
-  //       .subscribe(product => {
-  //         this.product = product;
-  //       });
-  //   }
-  // }
-
   product: Product | null = null;
-  private productSubscription: Subscription | undefined;
+  error: string | null = null;
+  quantity: number = 1; 
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
-    // Retrieve product ID from URL parameters
-    const productId = this.route.snapshot.paramMap.get('id');
-
-    if (productId) {
-      // Fetch product details from the backend API
-      this.productSubscription = this.productService.getProductById(productId)
-        .subscribe({
-          next: (product: Product) => {
-            this.product = product;
+    this.route.paramMap.subscribe(params => {
+      const productId = params.get('id');
+      if (productId) {
+        this.productService.getProductById(productId).subscribe(
+          (data: Product) => {
+            this.product = data;
           },
-          error: (error) => {
-            console.error('Error fetching product details:', error);
-            // Handle error (e.g., display error message)
+          (err) => {
+            this.error = err.error.message;
           }
-        });
-    }
+        );
+      }
+    });
   }
 
-  ngOnDestroy(): void {
-    // Unsubscribe to prevent memory leaks
-    if (this.productSubscription) {
-      this.productSubscription.unsubscribe();
-    }
+  addToCart(productId: string, quantity: number) {
+    this.cartService.addToCart(productId, quantity).subscribe(
+      response => {
+        console.log('Product added to cart', response);
+      },
+      error => {
+        console.error('Error adding product to cart', error);
+      }
+    );
+  }
+
+  getImageUrl(imageUrl: string): string {
+    return this.productService.getImageUrl(imageUrl);
   }
 }

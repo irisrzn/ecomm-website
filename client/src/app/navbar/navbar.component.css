@@ -11,7 +11,7 @@
 
 .offcanvas-header {
     z-index: 100;
-}   
+}
 
 .auth-btn:hover {
     transform: scale(1.01);
@@ -33,9 +33,11 @@ i.fa-cart-shopping {
 .dropdown .nav-link .fa-angle-up {
     display: none;
 }
+
 .dropdown .nav-link.show .fa-angle-down {
     display: none;
 }
+
 .dropdown .nav-link.show .fa-angle-up {
     display: block;
 }
@@ -43,4 +45,31 @@ i.fa-cart-shopping {
 .text-small {
     color: #212529ba;
     font-size: 12px;
+}
+
+.cart-icon-container {
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: 0;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 1px 6px;
+    font-size: 10px;
+}
+
+.cart-popup {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: green;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
 }

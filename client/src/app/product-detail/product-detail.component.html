@@ -1,13 +1,31 @@
-<div class="product-detail" *ngIf="product">
-    <h2>Product Details</h2>
-    <h3>{{ product.name }}</h3>
-    <p>Description: {{ product.brand }}</p>
-    <p>Price: {{ product.price }}</p>
-    <img src="{{ product.imageUrl }}" alt="{{ product.name }}">
+<div class="container pt-5">
+    <div class="row flex-column align-items-center justify-content-center" *ngIf="product; else loading">
+        <div class="col-12 col-lg-4">
+            <img [src]="getImageUrl(product.imageUrl)" alt="{{ product.name }}" class="img-fluid">
+        </div>
+        <div class="col-12 col-lg-6">
+            <div>
+                <h1>{{ product.name }}</h1>
+                <h4 class="price-text">{{ product.price | currency }}</h4>
+                <p>{{ product.description }}</p>
+                <div class="d-flex flex-column flex-md-row justify-content-between tag-links">
+                    <p class="text-uppercase">Category: <a [routerLink]="['/category', product.category]">{{ product.category }}</a></p>
+                    <p class="text-uppercase">Brand: <a [routerLink]="['/products']" [queryParams]="{ brand: product.brand }">{{ product.brand }}</a></p>
+                </div>
+                <div class="d-flex align-items-center mb-4">
+                    <label for="quantity" class="me-3">QTY:</label>
+                    <input type="number" id="quantity" [(ngModel)]="quantity" min="1" max="100" class="form-control" style="width: 100px;">
+                </div>
 
-    <button>Add to Cart</button>
-</div>
+                <button (click)="addToCart(product._id, quantity)" class="cart-btn mb-5">Add to Cart</button>
+            </div>
 
-<div *ngIf="!product">
-    <p>Loading...</p>
+        </div>
+    </div>
+    <ng-template #loading>
+        <p>Loading...</p>
+    </ng-template>
+    <div *ngIf="error">
+        <p>{{ error }}</p>
+    </div>
 </div>

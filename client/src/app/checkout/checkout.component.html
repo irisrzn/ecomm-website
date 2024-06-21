@@ -65,8 +65,8 @@
                                 </div>
                             </div>
                             <div class="col-12 d-flex justify-content-end">
-                                <!-- <button type="submit" class="btn btn-primary"  [disabled]="!addressForm.valid">Next</button> -->
-                                <button type="submit" class="btn btn-primary">Next</button>
+                                <button type="submit" class="btn primary-bg-color rounded-0"  [disabled]="!addressForm.valid">Next</button>
+                                <!-- <button type="submit" class="btn primary-bg-color rounded-0">Next</button> -->
                             </div>
                         </div>
                     </form>
@@ -118,8 +118,8 @@
                             <div class="col-12 d-flex justify-content-between align-items-center">
 
                                 <a type="button" (click)="previousStep()"><i class="fa-solid fa-arrow-left pe-2"></i>Back</a>
-                                <button type="submit" class="btn btn-primary">Next</button>
-                                <!-- <button type="submit" class="btn btn-primary" [disabled]="!paymentForm.valid">Next</button> -->
+                                <!-- <button type="submit" class="btn primary-bg-color rounded-0">Next</button> -->
+                                <button type="submit" class="btn primary-bg-color rounded-0" [disabled]="!paymentForm.valid">Next</button>
                             </div>
                         </div>
                     </form>
@@ -139,9 +139,14 @@
 
                         <div class="d-flex justify-content-between align-items-center">
                             <a type="button" (click)="previousStep()"><i class="fa-solid fa-arrow-left pe-2"></i>Back</a>
-                            <button type="button" class="btn btn-primary" (click)="onSubmit()">Confirm Order</button>
+                            <button type="button" class="btn primary-bg-color rounded-0" (click)="onSubmit()">Confirm Order</button>
+                            <!-- <button type="button" class="btn primary-bg-color rounded-0" (click)="nextStep()">Confirm Order</button> -->
                         </div>
                     </div>
+                </div>
+                <div *ngIf="step === 4">
+                    <h3 class="text-center pb-3">Order placed successfully!</h3>
+                    <p class="text-center">Continue shopping? Go back to the <a class="primary-text-color" [routerLink]="['/product']">home page</a>.</p>
                 </div>
             </div>
         </div>

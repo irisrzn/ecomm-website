@@ -19,31 +19,31 @@ export class OrderHistoryComponent {
     this.loadOrderHistory();
   }
 
-  // loadOrderHistory(): void {
-  //   this.orderService.getOrderHistory().subscribe(
-  //     (response: any[]) => {
-  //       this.orders = response;
-  //       // this.orderItems = response.items;
-  //     },
-  //     error => {
-  //       console.error('Error fetching order history', error);
-  //     }
-  //   );
-  // }
-
   loadOrderHistory(): void {
     this.orderService.getOrderHistory().subscribe(
-      data => {
-        this.orders = data;
-        this.orderItems = data.items;
-        console.log("data items:" + data);
-        
+      (response: any[]) => {
+        this.orders = response;
+        // this.orderItems = response.items;
       },
       error => {
         console.error('Error fetching order history', error);
       }
     );
   }
+
+  // loadOrderHistory(): void {
+  //   this.orderService.getOrderHistory().subscribe(
+  //     data => {
+  //       this.orders = data;
+  //       this.orderItems = data.items;
+  //       console.log("data items:" + data);
+        
+  //     },
+  //     error => {
+  //       console.error('Error fetching order history', error);
+  //     }
+  //   );
+  // }
 
   getImageUrl(imageUrl: string): string {
     return this.productService.getImageUrl(imageUrl);

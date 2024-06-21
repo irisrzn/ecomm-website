@@ -1,10 +1,10 @@
-<div class="card h-100 rounded-0">
+<a class="card h-100 rounded-0 text-decoration-none" [routerLink]="['/product', product._id]">
     <img [src]="getImageUrl(product.imageUrl)" alt="" />
     <div class="card-body d-flex flex-column justify-content-between">
         <h5 class="card-title">{{ product.name }}</h5>
         <div>
             <p class="card-text">{{ product.price | currency: "USD" }}</p>
-            <button (click)="addToCart(product._id, 1)" class="cart-btn">Add to Cart</button>
+            <button (click)="addToCart($event, product._id, 1)" class="cart-btn">Add to Cart</button>
         </div>
     </div>
-</div>
+</a>

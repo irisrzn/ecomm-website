@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.primary-text-color {
+    color: #212529;
+}
+
+.primary-bg-color {
+    background-color: #212529!important;
+    color: #fff!important;
+}
+
+.custom-btn {
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: rgb(69, 69, 69);
+    color: white;
+    display: block;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: none; /* Smooth transition */
+}
+
+.custom-btn:hover {
+    transform: scale(1.01);
+    background-color: rgba(69, 69, 69, 0.768);
+}

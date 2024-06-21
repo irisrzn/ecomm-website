@@ -1,0 +1,35 @@
+<nav class="navbar bg-light fixed-top py-3">
+    <div class="container-fluid align-items-center">
+        <button class="navbar-toggler shadow-none border-0 py-x" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <i class="fa-solid fa-user"></i>
+        </button>
+        <a routerLink="/"><img src="../../assets/images/logo.png" height="30" alt=""><span class="fw-bold">ADMIN</span></a>
+        <div class="sidebar offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header align-items-start w-100">
+                <span class="text-small" *ngIf="isLoggedIn">Hello, {{ username }}!</span>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+            <div class="offcanvas-body d-flex flex-column justify-content-center">
+                <ul *ngIf="isLoggedIn" class="navbar-nav justify-content-start flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link active offcanvas-link pt-0" routerLink="/home" data-bs-dismiss="offcanvas">Products</a>
+                    </li>
+                    <li *ngIf="isLoggedIn" class="nav-item">
+                        <a class="nav-link active offcanvas-link pt-0" routerLink="/orders" data-bs-dismiss="offcanvas">Orders</a>
+                    </li>
+                    <li *ngIf="isLoggedIn" class="nav-item">
+                        <a class="nav-link active offcanvas-link pt-0" routerLink="/orders" data-bs-dismiss="offcanvas">Orders</a>
+                    </li>
+                    <li *ngIf="isLoggedIn" class="nav-item">
+                        <a class="nav-link active offcanvas-link pt-0" routerLink="/users" data-bs-dismiss="offcanvas">Users</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav justify-content-end">
+                    <li *ngIf="isLoggedIn" class="nav-item">
+                        <a class="auth-btn offcanvas-link" (click)="logout()" data-bs-dismiss="offcanvas">LOGOUT</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

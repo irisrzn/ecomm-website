@@ -1,33 +1,30 @@
-<div class="container">
+<div class="container" *ngIf="cartItems.length > 0; else emptyCart">
     <div class="row">
         <div class="col-12  pt-5 mt-5">
             <h2 class="mb-5">Your Shopping Cart</h2>
         </div>
-        <div *ngIf="cartItems.length > 0; else emptyCart" class=" col-12 col-md-8">
+        <div class=" col-12 col-md-8">
             <div *ngFor="let item of cartItems" class="cart-item mb-5">
                 <div class="row">
                     <div class="col-md-2 d-flex align-items-center">
                         <img [src]="getImageUrl(item.product.imageUrl)" class="img-fluid m-auto" alt="{{ item.product.name }}">
                     </div>
-                    <div class="col-md-6 d-flex flex-column justify-content-between">
+                    <a [routerLink]="['/product',item.product._id]" class="col-md-6 d-flex flex-column justify-content-between primary-text-color text-decoration-none">
                         <h4 class="mb-2">{{ item.product.name }}</h4>
                         <p class="small-text mb-2">{{ item.product.brand }}</p>
                         <p class="mb-0">{{ item.product.price | currency: 'USD' }}</p>
-                    </div>
+                    </a>
                     <div class="col-md-2">
-                        <a (click)="!item.updating && updateQuantity(item.product._id, -1)" class="cursor-pointer"><i class="fa-solid fa-minus" [class.disabled]="item.updating"></i></a>
+                        <a (click)="!item.updating && updateQuantity(item.product._id, -1)" class="cursor-pointer primary-text-color"><i class="fa-solid fa-minus " [class.disabled]="item.updating"></i></a>
                         <span class="mx-2">{{ item.quantity }}</span>
-                        <a (click)="!item.updating && updateQuantity(item.product._id, +1)" class="cursor-pointer"><i class="fa-solid fa-plus" [class.disabled]="item.updating"></i></a>
+                        <a (click)="!item.updating && updateQuantity(item.product._id, +1)" class="cursor-pointer primary-text-color"><i class="fa-solid fa-plus" [class.disabled]="item.updating"></i></a>
                     </div>
                     <div class="col-md-2">
-                        <button (click)="removeItem(item.product._id)" class="btn btn-danger">Remove</button>
+                        <button (click)="removeItem(item.product._id)" class="btn btn-danger rounded-0">Remove</button>
                     </div>
                 </div>
             </div>
         </div>
-        <ng-template #emptyCart>
-            <p>Your cart is empty.</p>
-        </ng-template>
         <div class="col-md-4 col-12">
             <div class="border p-3 mb-3">
                 <h3 class="mb-3 px-2">Cart Summary</h3>
@@ -41,7 +38,7 @@
                         </tr>
                         <tr class="fw-bold">
                             <td>Total</td>
-                            <td>{{ totalPrice | currency: 'USD' }}</td>
+                            <td class="text-end">{{ totalPrice | currency: 'USD' }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -50,3 +47,14 @@
         </div>
     </div>
 </div>
+
+<ng-template #emptyCart>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 pt-5 mt-5">
+                <h2 class="">Your Shopping Cart</h2>
+                <p>Your cart is empty. Go check out our <a routerLink="/products" class="primary-text-color">product catalog</a> and add some cool items to your cart.</p>
+            </div>
+        </div>
+    </div>
+</ng-template>

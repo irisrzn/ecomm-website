@@ -1,0 +1,21 @@
+.cart-btn {
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: rgb(69, 69, 69);
+    color: white;
+    width: 100%;
+    display: block;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: none; /* Smooth transition */
+}
+
+.cart-btn:hover {
+    transform: scale(1.01);
+    background-color: rgba(69, 69, 69, 0.768);
+}
+
+.tag-links {
+    font-size: 12px;
+    color: rgba(69, 69, 69, 0.829);
+}

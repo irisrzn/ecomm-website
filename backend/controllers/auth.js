@@ -2,29 +2,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
-const refreshToken = async (req, res) => {
-    const { refreshToken } = req.body;
-
-    if (!refreshToken) {
-        return res.status(400).send({ error: 'Refresh token is required' });
-    }
-
-    try {
-        const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-        const user = await User.findById(payload.id);
-
-        if (!user) {
-            return res.status(404).send({ error: 'User not found' });
-        }
-
-        const accessToken = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
-
-        res.send({ accessToken });
-    } catch (error) {
-        res.status(401).send({ error: 'Invalid refresh token' });
-    }
-};
-
 // Register a new user
 const register = async (req, res, next) => {
     const { username, email, password, fname, lname } = req.body;
@@ -64,4 +41,4 @@ const login = async (req, res, next) => {
     }
 };
 
-module.exports = { register, login, refreshToken };
+module.exports = { register, login };

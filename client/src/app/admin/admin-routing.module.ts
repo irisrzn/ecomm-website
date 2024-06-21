@@ -9,13 +9,13 @@ import { AdminGuard } from './admin.guard';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'admin',
     component: DashboardComponent,
     canActivate: [AdminGuard],
     children: [
-      { path: 'orders', component: OrdersComponent },
-      { path: 'products', component: ProductsComponent },
-      { path: 'users', component: UsersComponent }
+      { path: 'admin-orders', component: OrdersComponent },
+      { path: 'admin-products', component: ProductsComponent },
+      { path: 'admin-users', component: UsersComponent }
     ]
   }
 ];

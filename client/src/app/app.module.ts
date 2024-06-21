@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms'; // Import ReactiveFormsModule
+import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ProductListingsComponent } from './product-listings/product-listings.component';
@@ -24,6 +24,8 @@ import { CategoryCardComponent } from './category-card/category-card.component';
 import { CategoryComponent } from './category/category.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   providers: [
@@ -33,7 +35,7 @@ import { FooterComponent } from './footer/footer.component';
     provideNgxMask()
   ],
   imports: [
-    BrowserModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, NgxMaskDirective 
+    BrowserModule, AdminModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, NgxMaskDirective 
 
   ],
   declarations: [

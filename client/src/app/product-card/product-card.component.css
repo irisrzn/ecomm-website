@@ -7,10 +7,19 @@
     display: block;
     text-align: center;
     transition: all 0.3s ease;
-    border: none; /* Smooth transition */
+    border: none;
+    /* Smooth transition */
 }
 
 .cart-btn:hover {
     transform: scale(1.01);
     background-color: rgba(69, 69, 69, 0.768);
+}
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
 }

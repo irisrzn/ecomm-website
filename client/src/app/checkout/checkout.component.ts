@@ -74,7 +74,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   nextStep() {
-    if (this.step < 3) {
+    if (this.step < 4) {
       this.step++;
     } else {
       this.onSubmit();
@@ -94,10 +94,11 @@ export class CheckoutComponent implements OnInit {
     this.checkoutService.placeOrder(this.checkoutForm.value).subscribe(
       response => {
         this.orderResponse = response;
-        console.log("order places sucessfully");
-
+        console.log("order placed sucessfully");
+        this.nextStep();
       },
       error => {
+        alert("Something went wrong. Please try again later.")
         console.error('Error placing order', error);
         this.orderResponse = { message: 'Error placing order', error: error.error };
       }

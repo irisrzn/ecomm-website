@@ -15,7 +15,9 @@ export class ProductCardComponent {
     this.product = {} as Product;
   }
 
-  addToCart(productId: string, quantity: number) {
+  addToCart(event: Event, productId: string, quantity: number) {
+    event.stopPropagation();
+    event.preventDefault();
     this.cartService.addToCart(productId, quantity).subscribe(
       response => {
         console.log('Product added to cart', response);

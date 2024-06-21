@@ -1,74 +1,61 @@
 <nav class="navbar bg-light fixed-top py-3">
-    <div class="container-fluid align-items-center">
-        <!-- <a class="navbar-brand" href="#">ClimbHolds.ro</a> -->
-        <button class="navbar-toggler shadow-none border-0 py-x" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-            <i class="fa-solid fa-user"></i>
-        </button>
-        <a routerLink="/"><img src="../../assets/images/logo.png" height="30" alt=""></a>
-        <a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping px-3"></i></a>
-        <div class="sidebar offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header align-items-start w-100">
-                <span class="text-small" *ngIf="isLoggedIn">Hello, {{ username }}!</span>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-            </div>
-            <div class="offcanvas-body d-flex flex-column justify-content-center">
-                <ul *ngIf="isLoggedIn" class="navbar-nav justify-content-start flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link active offcanvas-link pt-0" routerLink="/home" data-bs-dismiss="offcanvas">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active offcanvas-link pt-0 d-flex justify-content-between" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Our products<i class="fa-solid fa-angle-up"></i><i class="fa-solid fa-angle-down"></i>
-                        </a>
-                        <ul class="dropdown-menu mt-0 pt-0" aria-labelledby="productsDropdown">
-                            <li>
-                                <a class="dropdown-item" routerLink="/products" data-bs-dismiss="offcanvas">View all</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" routerLink="/category/holds" data-bs-dismiss="offcanvas">Holds</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" routerLink="/category/volumes" data-bs-dismiss="offcanvas">Volumes</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" routerLink="/category/macros" data-bs-dismiss="offcanvas">Macros</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li *ngIf="isLoggedIn" class="nav-item">
-                        <a class="nav-link active offcanvas-link pt-0" routerLink="/order-history" data-bs-dismiss="offcanvas">Order History</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav justify-content-end">
-                    <li *ngIf="!isLoggedIn" class="nav-item mb-3">
-                        <a class="auth-btn offcanvas-link" routerLink="/login" data-bs-dismiss="offcanvas">LOGIN</a>
-                    </li>
-                    <li *ngIf="!isLoggedIn" class="nav-item">
-                        <a class="auth-btn offcanvas-link" routerLink="/register" data-bs-dismiss="offcanvas">REGISTER</a>
-                    </li>
-                    <li *ngIf="isLoggedIn" class="nav-item">
-                        <a class="auth-btn offcanvas-link" (click)="logout()" data-bs-dismiss="offcanvas">LOGOUT</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+  <div class="container-fluid align-items-center">
+    <button class="navbar-toggler shadow-none border-0 py-x" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+      <i class="fa-solid fa-user"></i>
+    </button>
+    <a routerLink="/"><img src="../../assets/images/logo.png" height="30" alt=""></a>
+    <div class="cart-icon-container">
+      <a class="nav-link" href="/cart">
+        <i class="fa-solid fa-cart-shopping px-3"></i>
+        <span class="cart-count" *ngIf="cartItemCount > 0 && isLoggedIn">{{ cartItemCount }}</span>
+      </a>
+      <div class="cart-popup" *ngIf="showPopup">Item added to cart!</div>
     </div>
+    <div class="sidebar offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header align-items-start w-100">
+        <span class="text-small" *ngIf="isLoggedIn">Hello, {{ username }}!</span>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      </div>
+      <div class="offcanvas-body d-flex flex-column justify-content-center">
+        <ul *ngIf="isLoggedIn" class="navbar-nav justify-content-start flex-grow-1">
+          <li class="nav-item">
+            <a class="nav-link active offcanvas-link pt-0" routerLink="/home" data-bs-dismiss="offcanvas">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link active offcanvas-link pt-0 d-flex justify-content-between" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our products<i class="fa-solid fa-angle-up"></i><i class="fa-solid fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu mt-0 pt-0" aria-labelledby="productsDropdown">
+              <li>
+                <a class="dropdown-item" routerLink="/products" data-bs-dismiss="offcanvas">View all</a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/category/holds" data-bs-dismiss="offcanvas">Holds</a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/category/volumes" data-bs-dismiss="offcanvas">Volumes</a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/category/macros" data-bs-dismiss="offcanvas">Macros</a>
+              </li>
+            </ul>
+          </li>
+          <li *ngIf="isLoggedIn" class="nav-item">
+            <a class="nav-link active offcanvas-link pt-0" routerLink="/order-history" data-bs-dismiss="offcanvas">Order History</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav justify-content-end">
+          <li *ngIf="!isLoggedIn" class="nav-item mb-3">
+            <a class="auth-btn offcanvas-link" routerLink="/login" data-bs-dismiss="offcanvas">LOGIN</a>
+          </li>
+          <li *ngIf="!isLoggedIn" class="nav-item">
+            <a class="auth-btn offcanvas-link" routerLink="/register" data-bs-dismiss="offcanvas">REGISTER</a>
+          </li>
+          <li *ngIf="isLoggedIn" class="nav-item">
+            <a class="auth-btn offcanvas-link" (click)="logout()" data-bs-dismiss="offcanvas">LOGOUT</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </nav>
-<!-- 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Function to close the offcanvas menu
-        function closeOffcanvas() {
-            var offcanvasElement = document.getElementById('offcanvasNavbar');
-            var offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
-            offcanvas.hide();
-        }
-
-        // Attach click event listeners to all elements with the class 'offcanvas-link'
-        var links = document.querySelectorAll('.offcanvas-link');
-        links.forEach(function(link) {
-            link.addEventListener('click', closeOffcanvas);
-        });
-    });
-</script> -->

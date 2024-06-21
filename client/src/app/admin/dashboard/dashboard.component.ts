@@ -7,7 +7,11 @@ import { AdminService } from '../../services/admin.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  statistics: any;
+  statistics: any = {
+    totalUsers: 0,
+    totalOrders: 0,
+    totalRevenue: 0,
+  };
 
   constructor(private adminService: AdminService) { }
 
