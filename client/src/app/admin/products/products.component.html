@@ -1,1 +1,111 @@
-<p>products works!</p>
+<div class="container pt-5 mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h2>Product Management</h2>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>Create Product</h3>
+                </div>
+                <div class="card-body">
+                    
+                    <form [formGroup]="newProductForm" (submit)="onSubmit()">
+                        <div class="form-group">
+                            <label for="productName">Name</label>
+                            <input type="text" class="form-control" id="productName" formControlName="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productBrand">Brand</label>
+                            <input type="text" class="form-control" id="productBrand" formControlName="brand" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productPrice">Price</label>
+                            <input type="number" class="form-control" id="productPrice" formControlName="price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productImageUrl">Image URL</label>
+                            <input type="text" class="form-control" id="productImageUrl" formControlName="imageUrl" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productCategory">Category</label>
+                            <input type="text" class="form-control" id="productCategory" formControlName="category" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Product</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- List of products with options to update and delete -->
+            <div class="card mt-4" *ngIf="products && products.length">
+                <div class="card-header">
+                    <h3>Products List</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Brand</th>
+                                <th>Price</th>
+                                <th>Image</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of products">
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.brand }}</td>
+                                <td>{{ product.price }}</td>
+                                <td><img [src]="getImageUrl(product.imageUrl)" alt="{{ product.name }}" width="50"></td>
+                                <td>{{ product.category }}</td>
+                                <td>
+                                    <!-- <button class="btn btn-warning btn-sm" (click)="selectedProduct = product; updateProductForm.reset()" data-bs-toggle="modal" data-bs-target="#updateProductModal">
+                                        Update
+                                    </button> -->
+                                    <button class="btn btn-danger btn-sm" (click)="deleteProduct(product._id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- <div class="modal fade" id="updateProductModal" tabindex="-1" aria-labelledby="updateProductModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateProductModalLabel">Update Product</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form (submit)="updateProduct(selectedProduct._id, updateProductForm.value); updateProductForm.reset();" #updateProductForm="ngForm">
+                                <div class="form-group">
+                                    <label for="updateProductName">Name</label>
+                                    <input type="text" class="form-control" id="updateProductName" name="name" [(ngModel)]="selectedProduct.name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="updateProductBrand">Brand</label>
+                                    <input type="text" class="form-control" id="updateProductBrand" name="brand" [(ngModel)]="selectedProduct.brand" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="updateProductPrice">Price</label>
+                                    <input type="number" class="form-control" id="updateProductPrice" name="price" [(ngModel)]="selectedProduct.price" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="updateProductImageUrl">Image URL</label>
+                                    <input type="text" class="form-control" id="updateProductImageUrl" name="imageUrl" [(ngModel)]="selectedProduct.imageUrl" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="updateProductCategory">Category</label>
+                                    <input type="text" class="form-control" id="updateProductCategory" name="category" [(ngModel)]="selectedProduct.category" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Product</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>

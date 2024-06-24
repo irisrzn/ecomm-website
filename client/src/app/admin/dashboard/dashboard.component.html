@@ -1,13 +1,38 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-9 ml-sm-auto col-lg-10 px-4 pt-5 mt-5">
-            <h1 class="h2">Dashboard</h1>
-            <div>
-                <h4>User Statistics</h4>
-                <p>Total Users: {{ statistics.totalUsers }}</p>
-                <p>Total Orders: {{ statistics.totalOrders }}</p>
-                <p>Total Revenue: {{ statistics.totalRevenue }}</p>
+    <div class="row justify-content-center">
+        <div class="col-12 pt-5 mt-5 mb-4">
+            <h1 class="text-center">Dashboard</h1>
+        </div>
+        <div class="col-12 mb-4">
+            <h4 class="text-center">Statistics</h4>
+        </div>
+        <div class="col-12">
+            <div class="statistics-container row my-3 p-4">
+                <div class="col-12 col-lg-4 d-flex flex-column justify-content-center align-items-center">
+                    <p class="stat-numbers">{{ statistics.totalUsers }}</p>
+                    <p class="text-uppercase fw-bold mb-0">Users</p>
+                </div>
+                <div class="col-12 col-lg-4 d-flex flex-column justify-content-center align-items-center">
+                    <p class="stat-numbers">{{ statistics.totalOrders }}</p>
+                    <p class="text-uppercase fw-bold mb-0">Orders</p>
+                </div>
+                <div class="col-12 col-lg-4 d-flex flex-column justify-content-center align-items-center">
+                    <p class="stat-numbers">${{ statistics.totalRevenue }}</p>
+                    <p class="text-uppercase fw-bold mb-0">Revenue</p>
+                </div>
             </div>
+        </div>
+        <div class="col-12 col-lg-4 d-flex flex-column align-items-center my-5">
+            <h4 class="mb-5">Items ordered by Category</h4>
+            <canvas id="CategoryChart"></canvas>
+        </div>
+        <div class="col-12 col-lg-4 d-flex flex-column align-items-center my-5">
+            <h4 class="mb-5">Sales by Month</h4>
+            <canvas id="SalesChart"></canvas>
+        </div>
+        <div class="col-12 col-lg-4 d-flex flex-column align-items-center my-5">
+            <h4 class="mb-5">Items ordered by Brand</h4>
+            <canvas id="BrandChart" ></canvas>
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -27,21 +27,15 @@ import { FooterComponent } from './footer/footer.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AdminModule } from './admin/admin.module';
 
-@NgModule({
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    AuthGuard,
-    AuthService,
-    provideNgxMask()
-  ],
-  imports: [
-    BrowserModule, AdminModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, NgxMaskDirective 
-
-  ],
-  declarations: [
-    AppComponent, ProductListingsComponent, ProductDetailComponent, NavbarComponent, ProductCardComponent, CartComponent, LoginComponent, RegisterComponent, CheckoutComponent, OrderHistoryComponent, CategoryCardComponent, CategoryComponent, HomeComponent, FooterComponent
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent, ProductListingsComponent, ProductDetailComponent, NavbarComponent, ProductCardComponent, CartComponent, LoginComponent, RegisterComponent, CheckoutComponent, OrderHistoryComponent, CategoryCardComponent, CategoryComponent, HomeComponent, FooterComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule, AdminModule, FormsModule, RouterModule, AppRoutingModule, ReactiveFormsModule, NgxMaskDirective], providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        AuthGuard,
+        AuthService,
+        provideNgxMask(),
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
 }

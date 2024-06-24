@@ -9,11 +9,12 @@ import { UsersComponent } from './users/users.component';
 import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 import { AdminComponent } from './admin.component';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { BrowserModule } from '@angular/platform-browser';
-// import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
+import { Chart } from 'chart.js';
 
 
 @NgModule({
@@ -25,12 +26,13 @@ import { BrowserModule } from '@angular/platform-browser';
     UsersComponent,
     AdminNavbarComponent
   ],
+  exports: [AdminComponent, AdminNavbarComponent, ProductsComponent], 
   imports: [
+    BaseChartDirective,
     CommonModule,
     AdminRoutingModule,
     RouterModule,
-    BrowserModule, RouterModule, HttpClientModule, ReactiveFormsModule, NgxMaskDirective
-  ],
-  exports: [AdminComponent, AdminNavbarComponent]
+    BrowserModule,
+    FormsModule, RouterModule, ReactiveFormsModule, NgxMaskDirective], providers: [provideHttpClient(withInterceptorsFromDi())]
 })
 export class AdminModule { }

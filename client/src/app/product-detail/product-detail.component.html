@@ -7,7 +7,6 @@
             <div>
                 <h1>{{ product.name }}</h1>
                 <h4 class="price-text">{{ product.price | currency }}</h4>
-                <p>{{ product.description }}</p>
                 <div class="d-flex flex-column flex-md-row justify-content-between tag-links">
                     <p class="text-uppercase">Category: <a [routerLink]="['/category', product.category]">{{ product.category }}</a></p>
                     <p class="text-uppercase">Brand: <a [routerLink]="['/products']" [queryParams]="{ brand: product.brand }">{{ product.brand }}</a></p>
