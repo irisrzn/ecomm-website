@@ -25,5 +25,6 @@ export class AdminNavbarComponent {
 
   logout(): void {
     this.authService.logout();
+    this.router.navigate(['/home']);
   }
 }

@@ -1,1 +1,60 @@
-<p>users works!</p>
+<div class="container pt-5 mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h2>Users Management</h2>
+
+            <div class="card mt-4 rounded-0" *ngIf="users && users.length">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h3 class="mb-0 me-3">Users List</h3>
+                </div>
+                <div class="card-body pb-0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Username</th>
+                                <!-- <th>Password</th> -->
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Created at</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users.slice(startIndex, endIndex + 1)">
+                                <td class="align-middle">{{ user._id }}</td>
+                                <td class="align-middle">{{ user.username }}</td>
+                                <!-- <td class="align-middle">{{ user.password }}</td> -->
+                                <td class="align-middle">{{ user.fname }} {{ user.lname }}</td>
+                                <td class="align-middle">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-secondary rounded-0 dropdown-toggle text-capitalize" type="button" id="roleDropdown{{ user._id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{ user.role }}
+                                        </button>
+                                        <ul class="dropdown-menu" [attr.aria-labelledby]="'roleDropdown' + user._id">
+                                            <li><a class="dropdown-item cursor-pointer" (click)="updateUserRole(user._id, 'user')">User</a></li>
+                                            <li><a class="dropdown-item cursor-pointer" (click)="updateUserRole(user._id, 'admin')">Admin</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td class="align-middle">{{ user.createdAt | date }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav *ngIf="users.length > itemsPerPage">
+                        <ul class="pagination justify-content-end mt-3">
+                            <li class="page-item" [class.disabled]="currentPage === 1">
+                                <button class="page-link" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
+                            </li>
+                            <li class="page-item" *ngFor="let page of pages" [class.active]="currentPage === page">
+                                <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+                            </li>
+                            <li class="page-item" [class.disabled]="currentPage === totalPages">
+                                <button class="page-link" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages"><i class="fa-solid fa-arrow-right"></i></button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>      
+        </div>
+    </div>
+</div>

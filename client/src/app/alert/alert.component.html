@@ -1,0 +1,4 @@
+<div *ngFor="let message of messages" class="alert alert-info">
+    {{ message }}
+    <button class="close" (click)="removeAlert(message)">x</button>
+</div>

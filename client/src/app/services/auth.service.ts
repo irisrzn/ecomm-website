@@ -22,6 +22,7 @@ export class AuthService {
       map(response => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('username', username);
           this.loggedInSubject.next(true);
         }
         return response;
@@ -41,6 +42,7 @@ export class AuthService {
             localStorage.setItem('isAdmin', 'false');
           }
           console.log(localStorage.getItem('isAdmin'));
+          localStorage.setItem('username', username);
           this.loggedInSubject.next(true);
         }
         return response;
@@ -51,6 +53,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('isAdmin');
+    localStorage.removeItem('username');
     this.loggedInSubject.next(false);
   }
 
@@ -58,23 +61,15 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
+  getUsername(): string | null {
+    return localStorage.getItem('username');
+  }
+
   isAdmin(): boolean {
     console.log(localStorage.getItem('isAdmin'));
     
     return localStorage.getItem('isAdmin') === 'true';
   }
-
-  // isAdmin(): boolean {
-  //   const token = localStorage.getItem('token');
-  //   if (!token) {
-  //     return false;
-  //   }
-  //   const payload = JSON.parse(atob(token.split('.')[1]));
-
-  //   console.log("role: " + payload.role);
-    
-  //   return payload.role === 'admin';
-  // }
 
   getLoggedIn(): Observable<boolean> {
     return this.loggedInSubject.asObservable();

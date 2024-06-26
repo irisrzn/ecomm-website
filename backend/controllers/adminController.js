@@ -3,24 +3,6 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const moment = require('moment');
 
-// exports.getStatistics = async (req, res) => {
-//     try {
-//         const totalUsers = await User.countDocuments({});
-//         const totalOrders = await Order.countDocuments({});
-//         const totalRevenue = await Order.aggregate([
-//             { $group: { _id: null, total: { $sum: '$total' } } }
-//         ]);
-
-//         res.status(200).json({
-//             totalUsers,
-//             totalOrders,
-//             totalRevenue: totalRevenue[0] ? totalRevenue[0].total : 0,
-//         });
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
-
 exports.getStatistics = async (req, res) => {
     try {
         // Total Users
@@ -131,9 +113,34 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
+exports.updateUserRole = async (req, res) => {
+    try {
+        const { role } = req.body;
+        const validRoles = ['user', 'admin'];
+
+        if (!validRoles.includes(role)) {
+            return res.status(400).send({ error: 'Invalid role' });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { role },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+
+        res.status(200).send({ message: 'User role updated successfully', user });
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+};
+
 exports.getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find({}).populate('user').populate('items.product');
+        const orders = await Order.find({}).populate('address').populate('user', 'username email').populate('payment').populate('payment.card').populate('items.product');
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ error: error.message });

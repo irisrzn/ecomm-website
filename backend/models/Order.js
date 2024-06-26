@@ -25,6 +25,12 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Payment',
         required: true
+    },
+    status: {
+        type: String,
+        required: true,
+        enum: ['pending', 'processing', 'confirmed', 'shipped', 'delivered', 'cancelled'],
+        default: 'pending'
     }
 }, { timestamps: true });
 

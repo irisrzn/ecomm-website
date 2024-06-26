@@ -7,6 +7,7 @@ router.use(authMiddleware.verifyAdmin);
 
 router.get('/statistics', adminController.getStatistics);
 router.get('/users', adminController.getAllUsers);
+router.put('/users/:id/role', adminController.updateUserRole);
 router.get('/orders', adminController.getAllOrders);
 router.get('/products', adminController.getAllProducts);
 router.post('/product', adminController.createProduct);

@@ -10,6 +10,7 @@ import { AuthGuard } from './auth.guard';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { CategoryComponent } from './category/category.component';
 import { HomeComponent } from './home/home.component';
+import { AdminGuard } from './admin/admin.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -21,7 +22,7 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
   { path: 'order-history', component: OrderHistoryComponent },
   { path: 'category/:category', component: CategoryComponent },
-  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+  { path: 'admin', canActivate: [AdminGuard], loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' }
 ];

@@ -1,11 +1,12 @@
 <div class="container py-5 mt-5">
     <div class="row justify-content-center align-content-center">
         <div class="col-12 col-lg-8">
-            <h2 class="text-center">Order History</h2>
-            <div *ngIf="orders.length === 0">
-                <p>No orders found.</p>
+            <h2 class="text-lg-center">Order History</h2>
+            <div class="mt-4" *ngIf="orders.length === 0">
+                <p class="text-lg-center">No orders found.</p>
+                <p class="text-lg-center">Go check out our <a routerLink="/products" class="primary-text-color">product catalog</a>, add some cool items to your cart and place an order.</p>
             </div>
-            <table class="table pt-lg-5 mt-lg-5">
+            <table *ngIf="orders.length > 0" class="table pt-lg-5 mt-lg-5">
                 <thead>
                     <tr>
                         <th scope="col">#</th>

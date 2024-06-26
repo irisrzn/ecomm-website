@@ -101,3 +101,28 @@ exports.getAllOrders = async (req, res) => {
         res.status(400).send({ error: error.message });
     }
 };
+
+exports.updateOrderStatus = async (req, res) => {
+    try {
+        const { status } = req.body;
+        const validStatuses = ['pending', 'processing', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+
+        if (!validStatuses.includes(status)) {
+            return res.status(400).send({ error: 'Invalid status' });
+        }
+
+        const order = await Order.findByIdAndUpdate(
+            req.params.id,
+            { status },
+            { new: true }
+        );
+
+        if (!order) {
+            return res.status(404).send({ error: 'Order not found' });
+        }
+
+        res.status(200).send({ message: 'Order status updated successfully', order });
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+};

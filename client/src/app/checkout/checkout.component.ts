@@ -95,6 +95,7 @@ export class CheckoutComponent implements OnInit {
       response => {
         this.orderResponse = response;
         console.log("order placed sucessfully");
+        this.cartService.updateCartItemCount();
         this.nextStep();
       },
       error => {

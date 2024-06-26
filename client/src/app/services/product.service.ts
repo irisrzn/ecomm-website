@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../product.model';
+import { LoadingService } from './loading.service';
+import { finalize } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +11,7 @@ import { Product } from '../product.model';
 export class ProductService {
     private baseUrl = 'http://localhost:3000/api';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private loadingService: LoadingService) { }
 
     addProduct(product: Product): Observable<Product> {
         const url = `${this.baseUrl}/products`;
@@ -17,28 +19,19 @@ export class ProductService {
     }
 
     getProducts(): Observable<Product[]> {
+        this.loadingService.show();
         const url = `${this.baseUrl}/products`;
-        return this.http.get<Product[]>(url);
+        return this.http.get<Product[]>(url).pipe(
+            finalize(() => this.loadingService.hide())
+        );
     }
 
     getProductById(id: string): Observable<Product> {
+        this.loadingService.show();
         const url = `${this.baseUrl}/products/${id}`;
-        return this.http.get<Product>(url);
-    }
-
-    updateProduct(id: string, product: Product): Observable<Product> {
-        const url = `${this.baseUrl}/products/${id}`;
-        return this.http.put<Product>(url, product);
-    }
-
-    deleteProduct(id: string): Observable<void> {
-        const url = `${this.baseUrl}/products/${id}`;
-        return this.http.delete<void>(url);
-    }
-
-    searchProducts(searchQuery: string): Observable<Product[]> {
-        const url = `${this.baseUrl}/products?search=${searchQuery}`;
-        return this.http.get<Product[]>(url);
+        return this.http.get<Product>(url).pipe(
+            finalize(() => this.loadingService.hide())
+        );
     }
 
     getImageUrl(imageUrl: string): string {
@@ -46,11 +39,15 @@ export class ProductService {
     }
 
     getProductsByCategory(category: string): Observable<Product[]> {
+        this.loadingService.show();
         const url = `${this.baseUrl}/products?category=${category}`;
-        return this.http.get<Product[]>(url);
+        return this.http.get<Product[]>(url).pipe(
+            finalize(() => this.loadingService.hide())
+        );
     }
 
     getProductsByFilter(category?: string, brand?: string): Observable<Product[]> {
+        this.loadingService.show();
         let url = `${this.baseUrl}/products?`;
         if (category) {
             url += `category=${category}&`;
@@ -58,10 +55,13 @@ export class ProductService {
         if (brand) {
             url += `brand=${brand}`;
         }
-        return this.http.get<Product[]>(url);
+        return this.http.get<Product[]>(url).pipe(
+            finalize(() => this.loadingService.hide())
+        );
     }
 
     getBrands(): Observable<string[]> {
+        // this.loadingService.show();
         const url = `${this.baseUrl}/brands`;
         return this.http.get<string[]>(url);
     }

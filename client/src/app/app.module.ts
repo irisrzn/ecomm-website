@@ -26,16 +26,28 @@ import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AdminModule } from './admin/admin.module';
+import { AlertComponent } from './alert/alert.component';
+import { SharedModule } from './shared/shared.module';
 
-@NgModule({ declarations: [
-        AppComponent, ProductListingsComponent, ProductDetailComponent, NavbarComponent, ProductCardComponent, CartComponent, LoginComponent, RegisterComponent, CheckoutComponent, OrderHistoryComponent, CategoryCardComponent, CategoryComponent, HomeComponent, FooterComponent
+@NgModule({
+    declarations: [
+        AppComponent, ProductListingsComponent, ProductDetailComponent, NavbarComponent, ProductCardComponent, CartComponent, LoginComponent, RegisterComponent, CheckoutComponent, OrderHistoryComponent, CategoryCardComponent, CategoryComponent, HomeComponent, FooterComponent, AlertComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule, AdminModule, FormsModule, RouterModule, AppRoutingModule, ReactiveFormsModule, NgxMaskDirective], providers: [
+    bootstrap: [
+        AppComponent
+    ],
+    imports: [
+        SharedModule, BrowserModule, AdminModule, FormsModule, RouterModule, AppRoutingModule, ReactiveFormsModule, NgxMaskDirective
+    ], 
+    exports: [
+    ],
+    providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         AuthGuard,
         AuthService,
         provideNgxMask(),
         provideHttpClient(withInterceptorsFromDi())
-    ] })
+    ]
+})
 export class AppModule {
 }

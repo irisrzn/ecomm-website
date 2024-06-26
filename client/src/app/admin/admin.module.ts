@@ -14,8 +14,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { BrowserModule } from '@angular/platform-browser';
 import { BaseChartDirective } from 'ng2-charts';
-import { Chart } from 'chart.js';
-
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +27,7 @@ import { Chart } from 'chart.js';
   ],
   exports: [AdminComponent, AdminNavbarComponent, ProductsComponent], 
   imports: [
+    SharedModule,
     BaseChartDirective,
     CommonModule,
     AdminRoutingModule,

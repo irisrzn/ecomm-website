@@ -1,0 +1,27 @@
+.submit-btn {
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: rgb(69, 69, 69);
+    color: white;
+    display: block;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: none; /* Smooth transition */
+}
+
+.submit-btn:hover {
+    transform: scale(1.01);
+    background-color: rgba(69, 69, 69, 0.768);
+}
+
+.form-alert-container {
+    min-height: 15px;
+}
+
+.form-alert {
+    font-size: 10px;
+    color: rgb(207, 0, 0);
+}
+.text-small {
+    font-size: 12px;
+}

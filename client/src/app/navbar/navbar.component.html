@@ -13,12 +13,13 @@
     </div>
     <div class="sidebar offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header align-items-start w-100">
-        <span class="text-small" *ngIf="isLoggedIn">Hello, {{ username }}!</span>
+        <!-- <span class="text-small" *ngIf="isLoggedIn">Hello, {{ username }}!</span> -->
+        <a routerLink="/"><img src="../../assets/images/logo.png" height="30" alt=""></a>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
       </div>
       <div class="offcanvas-body d-flex flex-column justify-content-center">
-        <ul *ngIf="isLoggedIn" class="navbar-nav justify-content-start flex-grow-1">
-          <li class="nav-item">
+        <ul class="navbar-nav justify-content-start flex-grow-1">
+          <li class="nav-item" *ngIf="isLoggedIn">
             <a class="nav-link active offcanvas-link pt-0" routerLink="/home" data-bs-dismiss="offcanvas">Home</a>
           </li>
           <li class="nav-item dropdown">

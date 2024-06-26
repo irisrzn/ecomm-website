@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private authService: AuthService, private cartService: CartService, private router: Router) {
     this.username = localStorage.getItem('username');
+    this.username = this.authService.getUsername();
   }
 
   ngOnInit(): void {
@@ -32,18 +33,19 @@ export class NavbarComponent implements OnInit {
       }
     });
 
-    this.router.events.pipe(
-      filter((event: any) => event instanceof NavigationEnd) 
-    ).subscribe((event: NavigationEnd) => { 
-      if (event.url === '/cart') {
-        this.updateCartItemCount();
-      }
-    });
+    // this.router.events.pipe(
+    //   filter((event: any) => event instanceof NavigationEnd) 
+    // ).subscribe((event: NavigationEnd) => { 
+    //   if (event.url === '/home') {
+    //     this.updateCartItemCount();
+    //   }
+    // });
   }
 
   logout(): void {
     this.authService.logout();
     this.cartItemCount = 0;
+    this.router.navigate(['/home']);
   }
 
   updateCartItemCount(): void {

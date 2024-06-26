@@ -13,10 +13,33 @@ import { ProductService } from '../../services/product.service';
 export class ProductsComponent implements OnInit {
   products!: any[];
   selectedProduct!: Product;
-  newProductForm: FormGroup;
+  productForm: FormGroup;
+
+  currentPage = 1;
+  itemsPerPage = 4;
+
+  get totalPages(): number {
+    return Math.ceil(this.products.length / this.itemsPerPage);
+  }
+
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  get startIndex(): number {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  get endIndex(): number {
+    return Math.min(this.startIndex + this.itemsPerPage - 1, this.products.length - 1);
+  }
+
+  goToPage(page: number): void {
+    this.currentPage = page;
+  }
 
   constructor(private adminService: AdminService, private productService: ProductService, private fb: FormBuilder, private router: Router) {
-    this.newProductForm = this.fb.group({
+    this.productForm = this.fb.group({
       name: ['', Validators.required],
       brand: ['', Validators.required],
       price: ['', Validators.required],
@@ -28,13 +51,13 @@ export class ProductsComponent implements OnInit {
   onSubmit() {
     const newProduct: Product = {
       _id: '',
-      name: this.newProductForm.value.name,
-      brand: this.newProductForm.value.brand,
-      price: this.newProductForm.value.price,
-      imageUrl: this.newProductForm.value.imageUrl,
-      category: this.newProductForm.value.category
+      name: this.productForm.value.name,
+      brand: this.productForm.value.brand,
+      price: this.productForm.value.price,
+      imageUrl: this.productForm.value.imageUrl,
+      category: this.productForm.value.category
     }
-    if (this.newProductForm.valid) {
+    if (this.productForm.valid) {
       this.adminService.createProduct(newProduct).subscribe(
         response => {
           console.log('Product added successfully', response);
@@ -58,10 +81,22 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  updateProduct(id: string, product: any): void {
-    this.adminService.updateProduct(id, product).subscribe(() => {
-      this.ngOnInit();
-    });
+  // updateProduct(id: string, product: any): void {
+  //   this.adminService.updateProduct(id, product).subscribe(() => {
+  //     this.ngOnInit();
+  //   });
+  // }
+
+  updateProduct(): void {
+    if (this.productForm.valid && this.selectedProduct) {
+      const productId = this.selectedProduct._id;
+      const updatedProduct = this.productForm.value as Product;
+      this.adminService.updateProduct(productId, updatedProduct).subscribe(() => {
+        this.ngOnInit();
+        this.productForm.reset();
+        this.selectedProduct = {} as Product;
+      });
+    }
   }
 
   deleteProduct(id: string): void {
