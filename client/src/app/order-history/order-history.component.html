@@ -12,6 +12,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Date</th>
                         <th scope="col">Total</th>
+                        <th scope="col">Status</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -20,6 +21,7 @@
                         <th scope="row">{{ i + 1 }}</th>
                         <td>{{ order.createdAt | date }}</td>
                         <td>{{ order.total | currency }}</td>
+                        <td class="text-uppercase">{{ order.status }}</td>
                         <td class="text-end">
                             <button class="btn btn-link py-0" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i" aria-expanded="false" [attr.aria-controls]="'collapse' + i" (click)="toggleIcon(i)">
                                 <i [ngClass]="{'fa-circle-plus': !isCollapsed[i], 'fa-circle-xmark': isCollapsed[i]}" class="fa-solid"></i>
