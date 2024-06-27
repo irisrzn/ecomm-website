@@ -27,6 +27,8 @@ import { FooterComponent } from './footer/footer.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AdminModule } from './admin/admin.module';
 import { SharedModule } from './shared/shared.module';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+
 
 @NgModule({
     declarations: [
@@ -36,7 +38,7 @@ import { SharedModule } from './shared/shared.module';
         AppComponent
     ],
     imports: [
-        SharedModule, BrowserModule, AdminModule, FormsModule, RouterModule, AppRoutingModule, ReactiveFormsModule, NgxMaskDirective
+        SlickCarouselModule, SharedModule, BrowserModule, AdminModule, FormsModule, RouterModule, AppRoutingModule, ReactiveFormsModule, NgxMaskDirective
     ], 
     exports: [
     ],

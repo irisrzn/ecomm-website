@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
 import { Product } from '../product.model';
 import { CartService } from '../services/cart.service';
 import { ProductService } from '../services/product.service';
@@ -11,8 +11,47 @@ import { ProductService } from '../services/product.service';
 export class ProductCardComponent {
   @Input() product: Product;
 
-  constructor(private cartService: CartService, private productService: ProductService) {
+  constructor(private cartService: CartService, private productService: ProductService, private elementRef: ElementRef, private renderer: Renderer2) {
     this.product = {} as Product;
+  }
+
+  ngOnInit(): void {
+      setTimeout(() => {
+        this.addRippleEffect();
+      }, 0);
+  }
+
+  private addRippleEffect(): void {
+    const buttons: NodeListOf<HTMLButtonElement> = this.elementRef.nativeElement.querySelectorAll('.ripple-button');
+    
+    buttons.forEach((button: HTMLButtonElement) => {
+      this.renderer.listen(button, 'click', (event: MouseEvent) => {
+        this.createRipple(event, button);
+      });
+    });
+  }
+
+  private createRipple(event: MouseEvent, button: HTMLButtonElement): void {
+    const x = event.clientX;
+    const y = event.clientY;
+
+    const buttonRect = button.getBoundingClientRect();
+    const buttonTop = buttonRect.top;
+    const buttonLeft = buttonRect.left;
+
+    const xInside = x - buttonLeft;
+    const yInside = y - buttonTop;
+
+    const circle = this.renderer.createElement('span');
+    this.renderer.addClass(circle, 'circle');
+    this.renderer.setStyle(circle, 'top', `${yInside}px`);
+    this.renderer.setStyle(circle, 'left', `${xInside}px`);
+
+    this.renderer.appendChild(button, circle);
+
+    setTimeout(() => {
+      this.renderer.removeChild(button, circle);
+    }, 500);
   }
 
   addToCart(event: Event, productId: string, quantity: number) {

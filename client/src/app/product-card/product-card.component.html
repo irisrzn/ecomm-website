@@ -3,8 +3,9 @@
     <div class="card-body d-flex flex-column justify-content-between">
         <h5 class="card-title">{{ product.name }}</h5>
         <div>
-            <p class="card-text">{{ product.price | currency: "USD" }}</p>
-            <button (click)="addToCart($event, product._id, 1)" class="cart-btn">Add to Cart</button>
+            <p class="card-text mb-2">{{ product.price | currency: "USD" }}</p>
+            <p class="small-text">{{ product.brand }}</p>
+            <button (click)="addToCart($event, product._id, 1)" class="ripple-button cart-btn">Add to Cart</button>
         </div>
     </div>
 </a>

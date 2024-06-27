@@ -4,19 +4,20 @@
             <h2 class="text-center my-5 pt-5">Categories</h2>
         </div>
         <div class="col-md-4" *ngFor="let category of categories">
-            <a [routerLink]="['/category', category.name]">
-                <div class="card text-center">
-                    <div class="card-body bg-primary text-white">
-                        <h5 class="card-title">{{ category.name }}</h5>
-                    </div>
-                </div>
-            </a>
+            <button [routerLink]="['/category', category.name]" class="ripple-button category-btn w-100">
+                {{ category.name }}
+            </button>
         </div>
+
         <div class="col-12">
             <h2 class="text-center my-5">Newly Added Products</h2>
         </div>
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4" *ngFor="let product of products.slice(0, 4)">
-            <app-product-card [product]="product"></app-product-card>
-        </div>
+        <ngx-slick-carousel class="carousel h-100" #slickModal="slick-carousel" [config]="slideConfig">
+            <div ngxSlickItem *ngFor="let product of products.slice(0,6)" class="slide p-2 h-100">
+                <div class="h-100">
+                    <app-product-card [product]="product" class="h-100"></app-product-card>
+                </div>
+            </div>
+        </ngx-slick-carousel>
     </div>
 </div>

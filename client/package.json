@@ -21,9 +21,12 @@
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
     "gsap": "^3.12.5",
+    "jquery": "^3.7.1",
     "ng2-charts": "^6.0.1",
     "ngx-mask": "^17.0.8",
+    "ngx-slick-carousel": "^17.0.0",
     "rxjs": "~7.8.0",
+    "slick-carousel": "^1.8.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
