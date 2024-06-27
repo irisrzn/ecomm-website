@@ -27,28 +27,52 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-  onSubmit(): void {
-    if (this.loginForm.invalid) {
-      return;
-    }
+  // onSubmit(): void {
+  //   if (this.loginForm.invalid) {
+  //     return;
+  //   }
 
-    const username = this.loginForm.value.username;
-    const password = this.loginForm.value.password;
+  //   const username = this.loginForm.value.username;
+  //   const password = this.loginForm.value.password;
 
-    this.authService.login(username, password).subscribe(
-      (response) => {
-        console.log("Login successful.");
-        localStorage.setItem('username', this.loginForm.value.username);
-        if (response.role && response.role === 'admin') {
-          this.router.navigate(['/admin']);
-        } else {
-          this.router.navigate(['/home']);
+  //   this.authService.login(username, password).subscribe(
+  //     response => {
+  //       console.log("Login successful.");
+  //       localStorage.setItem('username', this.loginForm.value.username);
+  //       if (response.role && response.role === 'admin') {
+  //         this.router.navigate(['/admin']);
+  //       } else {
+  //         this.router.navigate(['/home']);
+  //       }
+  //     },
+  //     error => {
+  //       // alert("Wrong username or password. Please try again or register if you don't have an account.")
+  //       this.errorMessage = error.message;
+  //       console.error('Login failed', error);
+  //     }
+  //   );
+  // }
+  onSubmit() {
+    if (this.loginForm.valid) {
+      this.authService.login(
+        this.loginForm.value.username, 
+        this.loginForm.value.password
+      ).subscribe(
+        (response) => {
+          console.log("Login successful.");
+          localStorage.setItem('username', this.loginForm.value.username);
+          if (response.role && response.role === 'admin') {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/home']);
+          }
+        },
+        (error) => {
+          // alert("Wrong username or password. Please try again or register if you don't have an account.")
+          this.errorMessage = error.message;
+          console.error('Login failed', error);
         }
-      },
-      (error) => {
-        alert("Wrong username or password. Please try again or register if you don't have an account.")
-        this.errorMessage = error.message;
-      }
-    );
+      );
+    }
   }
 }

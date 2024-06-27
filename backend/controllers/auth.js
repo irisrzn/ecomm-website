@@ -7,6 +7,11 @@ const register = async (req, res, next) => {
     const { username, email, password, fname, lname } = req.body;
 
     try {
+        const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username or email already exists' });
+        }
+        
         const user = new User({ username, email, password, fname, lname });
         await user.save();
 

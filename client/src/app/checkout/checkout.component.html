@@ -2,23 +2,14 @@
     <div class="progress-bar" [style.width]="getProgressBarWidth()"></div>
 </div> -->
 
-<div class="container vh-100">
-    <div class="row justify-content-center align-content-center h-100">
+<div class="container custom-height pt-5 pt-lg-0">
+    <div class="row justify-content-center align-content-center h-100 pt-5 pt-lg-0">
         <div class="col-12 col-lg-8">
-            <div class="form-container p-lg-4">
+            <div class="form-container p-lg-4"> 
                 <div *ngIf="step === 1">
-                    <h3 class="text-center pb-3">Step 1: Address Details</h3>
+                    <h3 class="text-lg-center pb-3">Step 1: Address Details</h3>
                     <form [formGroup]="addressForm" (ngSubmit)="nextStep()">
                         <div class="row">
-                            <div class="col-12 col-lg-6 mb-3 mb-lg-2">
-                                <label for="country" class="form-label">Country</label>
-                                <input type="text" class="form-control rounded-0" id="country" required formControlName="country">
-                                <div class="form-alert-container mt-1">
-                                    <div *ngIf="addressForm.get('country')?.invalid && (addressForm.get('country')?.dirty || addressForm.get('country')?.touched)" class="form-alert">
-                                        <div *ngIf="addressForm.get('country')?.errors?.['required']">Country is required.</div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="col-12 col-lg-6 mb-3 mb-lg-2">
                                 <label for="street1" class="form-label">Street 1</label>
@@ -33,6 +24,16 @@
                             <div class="col-12 col-lg-6 mb-3 mb-lg-2">
                                 <label for="street2" class="form-label">Street 2</label>
                                 <input type="text" class="form-control rounded-0" id="street2" formControlName="street2">
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-3 mb-lg-2">
+                                <label for="country" class="form-label">Country</label>
+                                <input type="text" class="form-control rounded-0" id="country" required formControlName="country">
+                                <div class="form-alert-container mt-1">
+                                    <div *ngIf="addressForm.get('country')?.invalid && (addressForm.get('country')?.dirty || addressForm.get('country')?.touched)" class="form-alert">
+                                        <div *ngIf="addressForm.get('country')?.errors?.['required']">Country is required.</div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3 mb-lg-2">
@@ -64,7 +65,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 d-flex justify-content-end">
+                            <div class="d-flex justify-content-between align-items-center mb-5 mb-lg-0 w-100">
+                                <a type="button" [routerLink]="['/cart']" class="primary-text-color text-decoration-none"><i class="fa-solid fa-arrow-left pe-2"></i>Back</a>
                                 <button type="submit" class="btn primary-bg-color rounded-0"  [disabled]="!addressForm.valid">Next</button>
                                 <!-- <button type="submit" class="btn primary-bg-color rounded-0">Next</button> -->
                             </div>
@@ -72,7 +74,7 @@
                     </form>
                 </div>
                 <div *ngIf="step === 2">
-                    <h3 class="text-center pb-3">Step 2: Payment Details</h3>
+                    <h3 class="text-lg-center pb-3">Step 2: Payment Details</h3>
                     <form [formGroup]="paymentForm" (ngSubmit)="nextStep()">
                         <div class="row">
                             <div class="col-12 mb-3 mb-lg-2">
@@ -115,7 +117,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 d-flex justify-content-between align-items-center">
+                            <div class="col-12 d-flex justify-content-between align-items-center mb-5 mb-lg-0 w-100">
 
                                 <a type="button" (click)="previousStep()"><i class="fa-solid fa-arrow-left pe-2"></i>Back</a>
                                 <!-- <button type="submit" class="btn primary-bg-color rounded-0">Next</button> -->
@@ -125,19 +127,19 @@
                     </form>
                 </div>
                 <div *ngIf="step === 3">
-                    <h3 class="text-center pb-3">Step 3: Confirm order</h3>
+                    <h3 class="text-lg-center pb-3">Step 3: Confirm order</h3>
                     <div class="order-summary">
-                        <h4>Order Summary</h4>
-                        <ul class="list-group">
+                        <h4 class="mb-4">Order Summary</h4>
+                        <ul class="list-group mb-5">
                             <li class="list-group-item" *ngFor="let item of orderItems">
                                 {{ item.product.name }}: {{ item.quantity }} x {{ item.product.price | currency: 'USD' }} = {{ item.quantity * item.product.price | currency: 'USD' }}
                             </li>
                         </ul>
-                        <div class="total mt-3">
-                            <h5>Total: {{ totalPrice | currency: 'USD'}}</h5>
+                        <div class="total mt-5">
+                            <h5 class="text-end">Total: {{ totalPrice | currency: 'USD'}}</h5>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-5 mb-lg-0 w-100">
                             <a type="button" (click)="previousStep()"><i class="fa-solid fa-arrow-left pe-2"></i>Back</a>
                             <button type="button" class="btn primary-bg-color rounded-0" (click)="onSubmit()">Confirm Order</button>
                             <!-- <button type="button" class="btn primary-bg-color rounded-0" (click)="nextStep()">Confirm Order</button> -->

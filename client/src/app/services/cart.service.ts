@@ -18,19 +18,22 @@ export class CartService {
   }
 
   addToCart(productId: string, quantity: number): Observable<any> {
-    if (!this.authService.isAuthenticated()) {
-      this.alertService.showAlert('You need to be logged in to add items to the cart.');
-      alert("You need to be logged in to add items to the cart.");
-      return new Observable(); // Return an empty observable or handle as needed
-    }
     this.loadingService.show();
+
     return this.http.post(`${this.apiUrl}/cart/add`, { productId, quantity }).pipe(
-      tap(() => {
-        this.updateCartItemCount();
-        this.loadingService.hide()
+      tap({
+        next: () => {
+          this.updateCartItemCount();
+          this.loadingService.hide();
+        },
+        error: () => {
+          this.alertService.showAlert('Please log in to add items to the cart.');
+          this.loadingService.hide();
+        }
       })
     );
   }
+
 
   getCartItemCount(): Observable<number> {
     return this.cartItemCount.asObservable();

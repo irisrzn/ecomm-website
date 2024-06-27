@@ -3,7 +3,6 @@
     background-color: white;
     color: #212529;
     padding: 0.5rem 1rem;
-    margin: 0.5rem 0.25rem;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -15,10 +14,6 @@
 
 .filter-button:hover {
     background-color: #2125295a;
-}
-
-.text-right {
-    text-align: right;
 }
 
 .clear-filters-btn {

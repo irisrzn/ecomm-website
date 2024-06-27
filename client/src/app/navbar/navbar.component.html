@@ -24,7 +24,9 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link active offcanvas-link pt-0 d-flex justify-content-between" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Our products<i class="fa-solid fa-angle-up"></i><i class="fa-solid fa-angle-down"></i>
+              Our products
+              <i class="fa-solid fa-angle-up"></i>
+              <i class="fa-solid fa-angle-down"></i>
             </a>
             <ul class="dropdown-menu mt-0 pt-0" aria-labelledby="productsDropdown">
               <li>
@@ -41,6 +43,7 @@
               </li>
             </ul>
           </li>
+          
           <li *ngIf="isLoggedIn" class="nav-item">
             <a class="nav-link active offcanvas-link pt-0" routerLink="/order-history" data-bs-dismiss="offcanvas">Order History</a>
           </li>

@@ -2,7 +2,16 @@
     .form-container {
         border: 1px solid #dee2e6;
     }
+
+    .custom-height {
+        height: 100vh;
+    }
 }
+
+.custom-height {
+    min-height: 100vh;
+}
+
 .submit-btn {
     text-decoration: none;
     padding: 8px 16px;

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, switchMap, filter, take } from 'rxjs/operators';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private alertService: AlertService) {
     this.loggedInSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
   }
 
@@ -23,9 +24,16 @@ export class AuthService {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('username', username);
-          this.loggedInSubject.next(true);
         }
         return response;
+      }),
+      catchError(error => {
+        let errorMessage = 'Registration failed';
+        if (error.status === 400 && error.error.message === 'Username or email already exists') {
+          errorMessage = 'Username or email already exists';
+        }
+        this.alertService.showAlert(errorMessage);
+        return throwError(error);
       })
     );
   }
@@ -46,6 +54,17 @@ export class AuthService {
           this.loggedInSubject.next(true);
         }
         return response;
+      }),
+      catchError(error => {
+        let errorMessage = 'Login failed';
+        if (error.status === 404) {
+          errorMessage = 'User not found. Please try again or register if you don\'t have an account.';
+        }
+        if (error.status === 401) {
+          errorMessage = 'Wrong password. Please try again or register if you don\'t have an account.';
+        }
+        this.alertService.showAlert(errorMessage);
+        return throwError(error);
       })
     );
   }
